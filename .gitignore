@@ -5,5 +5,4 @@ dist/
 .env.*
 !.env.example
 .dev.vars
-docs/
 .DS_Store
