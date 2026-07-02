@@ -60,6 +60,7 @@ describe('onRequestGet /api/results/:id', () => {
         feature: 'Cuernos',
         personality: 'Feroz',
       },
+      createdAt: 1000,
     });
     expect(json.email).toBeUndefined();
   });

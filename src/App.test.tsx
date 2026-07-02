@@ -47,6 +47,7 @@ describe('App wizard flow', () => {
         commonName: 'Volcanrex',
         description: 'Un dinosaurio feroz que vive en volcanes.',
         imageUrl: '/images/abc.png',
+        createdAt: 1700000000000,
       });
 
       render(<App />);
@@ -133,6 +134,7 @@ describe('App wizard flow', () => {
         commonName: 'Volcanrex',
         description: 'Un dinosaurio feroz que vive en volcanes.',
         imageUrl: '/images/abc.png',
+        createdAt: 1700000000000,
       });
 
       render(<App />);
@@ -170,6 +172,7 @@ describe('App wizard flow', () => {
       imageUrl: '/images/abc.png',
       discovererName: 'Lucía',
       attrs: { size: 'Gigante', habitat: 'Volcán', diet: 'Carnívoro', feature: 'Cuernos', personality: 'Feroz' },
+      createdAt: 1700000000000,
     });
     window.history.pushState(null, '', '/r/result-1');
 
@@ -187,6 +190,7 @@ describe('App wizard flow', () => {
       imageUrl: '/images/abc.png',
       discovererName: 'Lucía',
       attrs: { size: 'Gigante', habitat: 'Volcán', diet: 'Carnívoro', feature: 'Cuernos', personality: 'Feroz' },
+      createdAt: 1700000000000,
     });
     window.history.pushState(null, '', '/r/result-1');
 
@@ -206,6 +210,7 @@ describe('App wizard flow', () => {
       imageUrl: '/images/abc.png',
       discovererName: 'Lucía',
       attrs: { size: 'Gigante', habitat: 'Volcán', diet: 'Carnívoro', feature: 'Cuernos', personality: 'Feroz' },
+      createdAt: 1700000000000,
     });
     vi.mocked(subscribeEmail).mockResolvedValue(undefined);
     window.history.pushState(null, '', '/r/result-1');
@@ -229,6 +234,7 @@ describe('App wizard flow', () => {
       imageUrl: '/images/abc.png',
       discovererName: 'Lucía',
       attrs: { size: 'Gigante', habitat: 'Volcán', diet: 'Carnívoro', feature: 'Cuernos', personality: 'Feroz' },
+      createdAt: 1700000000000,
     });
     vi.mocked(subscribeEmail).mockRejectedValue(new RateLimitError(120));
     window.history.pushState(null, '', '/r/result-1');

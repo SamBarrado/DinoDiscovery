@@ -28,6 +28,7 @@ export interface GenerateDinoResponse {
   commonName: string;
   description: string;
   imageUrl: string;
+  createdAt: number;
 }
 
 export interface ApiErrorResponse {

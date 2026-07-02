@@ -10,6 +10,7 @@ const result: GenerateDinoResponse = {
   commonName: 'Volcanrex',
   description: 'Un dinosaurio feroz que vive en volcanes.',
   imageUrl: '/images/abc.png',
+  createdAt: 1700000000000,
 };
 
 const attrs: DinoAttributes = {
@@ -29,6 +30,22 @@ describe('Card', () => {
     expect(screen.getByText('Volcanrex')).toBeInTheDocument();
     expect(screen.getByText(result.description)).toBeInTheDocument();
     expect(screen.getByText('Lucía')).toBeInTheDocument();
+  });
+
+  it('renders the discovery date from result.createdAt, not the current date', () => {
+    render(<Card discovererName="Lucía" result={result} attrs={attrs} />);
+    const expectedDate = new Date(result.createdAt).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    const todayDate = new Date().toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    expect(expectedDate).not.toBe(todayDate);
+    expect(screen.getByText(expectedDate)).toBeInTheDocument();
   });
 
   it('composites a deterministically-picked habitat sub-biome behind the dino image', () => {

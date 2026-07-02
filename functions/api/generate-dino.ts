@@ -91,6 +91,7 @@ export async function onRequestPost(context: { request: Request; env: Env }): Pr
   const cached = await getCachedDino(env.CACHE_KV, cacheKey);
   if (cached) {
     const resultId = crypto.randomUUID();
+    const createdAt = Date.now();
     await saveResult(env.RESULTS_KV, resultId, {
       scientificName: cached.scientificName,
       commonName: cached.commonName,
@@ -98,7 +99,7 @@ export async function onRequestPost(context: { request: Request; env: Env }): Pr
       imageKey: cached.imageKey,
       discovererName,
       attrs,
-      createdAt: Date.now(),
+      createdAt,
       email: null,
     });
     return Response.json({
@@ -107,6 +108,7 @@ export async function onRequestPost(context: { request: Request; env: Env }): Pr
       commonName: cached.commonName,
       description: cached.description,
       imageUrl: `/images/${cached.imageKey}.png`,
+      createdAt,
     });
   }
 
@@ -151,6 +153,7 @@ export async function onRequestPost(context: { request: Request; env: Env }): Pr
     });
 
     const resultId = crypto.randomUUID();
+    const createdAt = Date.now();
     await saveResult(env.RESULTS_KV, resultId, {
       scientificName: text.scientificName,
       commonName: text.commonName,
@@ -158,7 +161,7 @@ export async function onRequestPost(context: { request: Request; env: Env }): Pr
       imageKey: cacheKey,
       discovererName,
       attrs,
-      createdAt: Date.now(),
+      createdAt,
       email: null,
     });
 
@@ -168,6 +171,7 @@ export async function onRequestPost(context: { request: Request; env: Env }): Pr
       commonName: text.commonName,
       description: text.description,
       imageUrl: `/images/${imageKey}`,
+      createdAt,
     });
   } catch (err) {
     console.error('generate-dino failed:', err instanceof Error ? err.stack : err);

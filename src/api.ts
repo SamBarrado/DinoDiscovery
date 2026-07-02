@@ -72,6 +72,7 @@ export interface FetchedResult {
   imageUrl: string;
   discovererName: string;
   attrs: DinoAttributes;
+  createdAt: number;
 }
 
 export async function fetchResult(resultId: string): Promise<FetchedResult | null> {

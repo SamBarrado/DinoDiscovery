@@ -202,7 +202,7 @@ const HABITAT_TAG_STRIP_HEIGHT_PX = ART_HEIGHT_PX * 0.6;
 export const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ discovererName, result, attrs, foilTilt = { x: 0, y: 0 }, watermark = false }, ref) => {
     const { ref: descriptionRef, displayed: displayedDescription } = useDescriptionClamp(result.description);
-    const discoveryDate = new Date().toLocaleDateString('es-ES', {
+    const discoveryDate = new Date(result.createdAt).toLocaleDateString('es-ES', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',

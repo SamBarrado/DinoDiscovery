@@ -9,6 +9,7 @@ const result: GenerateDinoResponse = {
   commonName: 'Volcanrex',
   description: 'Un dinosaurio feroz.',
   imageUrl: '/images/abc.png',
+  createdAt: 1700000000000,
 };
 
 const legendaryAttrs: DinoAttributes = {

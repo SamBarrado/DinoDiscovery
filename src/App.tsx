@@ -95,6 +95,7 @@ export default function App() {
       commonName: fetched.commonName,
       description: fetched.description,
       imageUrl: fetched.imageUrl,
+      createdAt: fetched.createdAt,
     });
     setCurrentAttrs(fetched.attrs);
     setFlowState('result');

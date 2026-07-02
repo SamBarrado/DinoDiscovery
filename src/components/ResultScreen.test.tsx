@@ -11,6 +11,7 @@ const result: GenerateDinoResponse = {
   commonName: 'Volcanrex',
   description: 'Un dinosaurio feroz que vive en volcanes.',
   imageUrl: '/images/abc.png',
+  createdAt: 1700000000000,
 };
 
 const attrs: DinoAttributes = {
