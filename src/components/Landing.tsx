@@ -5,7 +5,7 @@ interface LandingProps {
 }
 
 const ROAR_START_SECONDS = 8;
-const APP_VERSION = 'v0.6.4';
+const APP_VERSION = 'v0.6.5';
 
 // Flavor stat only (not real data) — starts here and ticks up slowly while
 // the landing screen is open, to feel like a living discovery counter.
