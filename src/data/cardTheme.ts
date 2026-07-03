@@ -19,11 +19,15 @@ export const RARITY_LABELS: Record<Rarity, string> = {
   legendary: 'Legendario',
 };
 
+// rare/epic were darkened from #2d6a9f/#7a3f9d — those failed WCAG AA
+// contrast (3.32:1 / 2.74:1) against RARITY_BADGE_TEXT_COLOR's dark text;
+// these pass at ~4.6:1 / ~4.5:1 while staying visually close to the
+// original hues.
 export const RARITY_BADGE_COLORS: Record<Rarity, string> = {
   common: '#7a9e7a',
   uncommon: '#3f9d5c',
-  rare: '#2d6a9f',
-  epic: '#7a3f9d',
+  rare: '#5f9ccf',
+  epic: '#b17fd4',
   legendary: '#caa23a',
 };
 

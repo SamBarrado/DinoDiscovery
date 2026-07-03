@@ -61,5 +61,16 @@ La descripción debe coincidir con cómo se vería el dinosaurio en una ilustrac
     .replace(/^```(?:json)?\s*/i, '')
     .replace(/\s*```$/, '');
 
-  return JSON.parse(jsonText) as DinoText;
+  const parsed: unknown = JSON.parse(jsonText);
+  if (
+    typeof parsed !== 'object' ||
+    parsed === null ||
+    typeof (parsed as Record<string, unknown>).scientificName !== 'string' ||
+    typeof (parsed as Record<string, unknown>).commonName !== 'string' ||
+    typeof (parsed as Record<string, unknown>).description !== 'string'
+  ) {
+    throw new Error('Anthropic response did not match the expected DinoText shape');
+  }
+
+  return parsed as DinoText;
 }

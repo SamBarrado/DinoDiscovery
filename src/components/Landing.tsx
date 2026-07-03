@@ -101,7 +101,7 @@ export function Landing({ onStart }: LandingProps) {
           type="button"
           onClick={handleVideoTap}
           aria-label="Reproducir rugido"
-          className="relative z-0 w-full active:scale-95 transition-transform"
+          className="relative z-0 w-full min-h-[44px] active:scale-95 transition-transform"
         >
           <span className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-brand/70 z-10" />
           <span className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-brand/70 z-10" />
@@ -169,7 +169,7 @@ export function Landing({ onStart }: LandingProps) {
       <button
         type="button"
         onClick={onStart}
-        className="mt-6 sm:mt-8 w-full max-w-xs sm:max-w-sm px-6 py-3 sm:py-4 text-white font-display2 font-semibold text-base sm:text-xl uppercase tracking-[1px] sm:tracking-[2px] whitespace-nowrap rounded-[999px] bg-brand hover:shadow-[6px_6px_0_0_#f5e6c8] transition-shadow"
+        className="mt-6 sm:mt-8 w-full max-w-xs sm:max-w-sm px-6 py-3 sm:py-4 text-white font-display2 font-semibold text-base sm:text-xl uppercase tracking-[1px] sm:tracking-[2px] whitespace-nowrap rounded-[999px] bg-[#d1187f] hover:shadow-[6px_6px_0_0_#f5e6c8] transition-shadow"
       >
         ¡Comienza a explorar!
       </button>

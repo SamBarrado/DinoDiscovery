@@ -27,14 +27,14 @@ export function ResultScreen({ result, attrs, discovererName, onDownloadClick, o
           <button
             type="button"
             onClick={onDownloadClick}
-            className="px-6 py-3 min-h-[44px] text-white font-display2 font-semibold uppercase tracking-wide rounded-[999px] bg-brand hover:shadow-[6px_6px_0_0_#f5e6c8] transition-shadow"
+            className="px-6 py-3 min-h-[44px] text-white font-display2 font-semibold uppercase tracking-wide rounded-[999px] bg-[#d1187f] hover:shadow-[6px_6px_0_0_#f5e6c8] transition-shadow"
           >
             Descargar carta
           </button>
           <button
             type="button"
             onClick={onRestart}
-            className="px-6 py-3 min-h-[44px] text-brand font-display2 font-semibold uppercase tracking-wide rounded-[999px] border border-brand/40 hover:border-brand transition-colors"
+            className="px-6 py-3 min-h-[44px] text-brand-light font-display2 font-semibold uppercase tracking-wide rounded-[999px] border border-brand/40 hover:border-brand transition-colors"
           >
             Detectar otra especie
           </button>

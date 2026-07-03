@@ -18,13 +18,14 @@ export function NameStep({ value, onChange, onNext }: NameStepProps) {
         onChange={(e) => onChange(e.target.value)}
         placeholder="Escribe tu nombre"
         aria-label="Tu nombre"
+        maxLength={40}
         className="w-full px-4 py-3 bg-bg border-2 border-brand/20 focus:outline-none focus:border-brand focus-visible:ring-2 focus-visible:ring-brand-light text-lg text-center text-cream placeholder:text-moss"
       />
       <button
         type="button"
         disabled={!canContinue}
         onClick={onNext}
-        className="mt-6 w-full px-6 py-3 text-white font-display2 font-semibold text-lg uppercase tracking-wide rounded-[999px] bg-brand hover:shadow-[6px_6px_0_0_#f5e6c8] transition-shadow disabled:bg-[#3a3a3a] disabled:text-moss disabled:shadow-none disabled:cursor-not-allowed"
+        className="mt-6 w-full px-6 py-3 text-white font-display2 font-semibold text-lg uppercase tracking-wide rounded-[999px] bg-[#d1187f] hover:shadow-[6px_6px_0_0_#f5e6c8] transition-shadow disabled:bg-[#3a3a3a] disabled:text-moss disabled:shadow-none disabled:cursor-not-allowed"
       >
         Siguiente
       </button>
