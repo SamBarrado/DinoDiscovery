@@ -8,7 +8,7 @@
 [![Último commit](https://img.shields.io/github/last-commit/melinDross/DinoDiscovery)](https://github.com/melinDross/DinoDiscovery/commits/main)
 [![Licencia](https://img.shields.io/badge/licencia-PolyForm%20Noncommercial-blue)](LICENSE)
 
-![Carta de resultado — un descubrimiento real generado por IA](docs/screenshots/result-card.png)
+![Carta de resultado — un descubrimiento real generado por IA](docs/screenshots/result-card.jpeg)
 
 Dino Discovery es una app web infantil donde un niño o niña crea su propio dinosaurio eligiendo cinco atributos (tamaño, hábitat, dieta, característica especial, personalidad) a través de un wizard corto, y recibe a cambio una criatura generada por IA —imagen, nombre científico, nombre común y una descripción de tres frases— reformulada como una **carta coleccionable de "descubrimiento de especie"**: un ID de especie determinista, un nivel de rareza calculado, arte de hábitat ilustrado detrás del dino, y una carta con giro/inclinación 3D que se puede arrastrar con el dedo o el ratón.
 
@@ -108,7 +108,7 @@ Escalado ajustado al contenedor para la carta (un wrapper `transform: scale()` d
 
 | Landing | Wizard | Carga | Carta de resultado |
 |---|---|---|---|
-| ![Pantalla de inicio](docs/screenshots/landing.png) | ![Paso de atributo del wizard](docs/screenshots/wizard.png) | ![Pantalla de carga](docs/screenshots/loading.png) | ![Carta de resultado](docs/screenshots/result-card.png) |
+| ![Pantalla de inicio](docs/screenshots/landing.png) | ![Paso de atributo del wizard](docs/screenshots/wizard.png) | ![Pantalla de carga](docs/screenshots/loading.png) | ![Carta de resultado](docs/screenshots/result-card.jpeg) |
 
 La carta de resultado de arriba ("Dragón de Fuego") es una generación real, no un mockup — Coloso / Volcán / Carnívoro / Alas / Feroz, rareza épica.
 

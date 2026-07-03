@@ -8,7 +8,7 @@
 [![Last commit](https://img.shields.io/github/last-commit/melinDross/DinoDiscovery)](https://github.com/melinDross/DinoDiscovery/commits/main)
 [![License](https://img.shields.io/badge/license-PolyForm%20Noncommercial-blue)](LICENSE)
 
-![Result card — a real AI-generated discovery](docs/screenshots/result-card.png)
+![Result card — a real AI-generated discovery](docs/screenshots/result-card.jpeg)
 
 Dino Discovery is a kids' web app where a child builds their own dinosaur by picking five attributes (size, habitat, diet, special feature, personality) through a short wizard, and receives back an AI-generated creature — image, scientific name, common name, and a three-sentence description — reframed as a collectible **"species discovery" card**: a deterministic species ID, a computed rarity tier, illustrated habitat art behind the dino, and a 3D flip/tilt card you can drag with a finger or mouse.
 
@@ -108,7 +108,7 @@ Fit-to-container scaling for the card (a `ResizeObserver`-driven `transform: sca
 
 | Landing | Wizard | Loading | Result card |
 |---|---|---|---|
-| ![Landing screen](docs/screenshots/landing.png) | ![Wizard attribute step](docs/screenshots/wizard.png) | ![Loading screen](docs/screenshots/loading.png) | ![Result card](docs/screenshots/result-card.png) |
+| ![Landing screen](docs/screenshots/landing.png) | ![Wizard attribute step](docs/screenshots/wizard.png) | ![Loading screen](docs/screenshots/loading.png) | ![Result card](docs/screenshots/result-card.jpeg) |
 
 The result card above ("Dragón de Fuego") is a real generation, not a mockup — Coloso / Volcán / Carnívoro / Alas / Feroz, épico rarity.
 
