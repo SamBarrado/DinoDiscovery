@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
 import type { GenerateDinoResponse, DinoAttributes } from '../../shared/types';
 import { Card } from './Card';
 import { CARD_BACK_PATH } from '../data/cardTheme';
@@ -7,6 +7,16 @@ interface CardSceneProps {
   discovererName: string;
   result: GenerateDinoResponse;
   attrs: DinoAttributes;
+}
+
+// The flip trigger used to be a button rendered by CardScene itself, but the
+// result-screen button layout (see ResultScreen.tsx) groups "Girar carta"
+// alongside "Detectar otra especie" in a single row below the card, which
+// requires the button to be a sibling of CardScene, not a child of it. This
+// handle exposes the spin behavior (whose animation state lives here, tied to
+// the card's own flip/tilt/facing machinery) so ResultScreen can trigger it.
+export interface CardSceneHandle {
+  spin: () => void;
 }
 
 export function clampTilt(
@@ -53,7 +63,10 @@ const FLIP_TRANSITION = `transform ${FLIP_DURATION_MS}ms ease-out`;
 const SPIN_TRANSITION = `transform ${SPIN_DURATION_MS}ms ease-in-out`;
 const NO_TRANSITION = 'none';
 
-export function CardScene({ discovererName, result, attrs }: CardSceneProps) {
+export const CardScene = forwardRef<CardSceneHandle, CardSceneProps>(function CardScene(
+  { discovererName, result, attrs },
+  ref
+) {
   const [hasFlippedIn, setHasFlippedIn] = useState(false);
   const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
   const [transition, setTransition] = useState(FLIP_TRANSITION);
@@ -253,6 +266,8 @@ export function CardScene({ discovererName, result, attrs }: CardSceneProps) {
     }, SPIN_DURATION_MS);
   }
 
+  useImperativeHandle(ref, () => ({ spin: handleSpinClick }));
+
   const baseFlipDeg = hasFlippedIn ? 0 : 180;
   const totalRotateY = baseFlipDeg + tilt.rotateY + spinDeg;
 
@@ -335,13 +350,6 @@ export function CardScene({ discovererName, result, attrs }: CardSceneProps) {
           </div>
         </div>
       </div>
-      <button
-        type="button"
-        onClick={handleSpinClick}
-        className="px-4 py-2 min-h-[44px] text-brand-light font-display2 font-semibold uppercase tracking-wide rounded-[999px] border border-brand/40 hover:border-brand transition-colors"
-      >
-        Girar carta
-      </button>
     </div>
   );
-}
+});

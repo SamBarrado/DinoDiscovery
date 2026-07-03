@@ -1,6 +1,7 @@
+import { createRef } from 'react';
 import { describe, it, expect } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { CardScene, clampTilt, computeFitScale } from './CardScene';
+import { render, screen, fireEvent, act } from '@testing-library/react';
+import { CardScene, clampTilt, computeFitScale, type CardSceneHandle } from './CardScene';
 import type { GenerateDinoResponse, DinoAttributes } from '../../shared/types';
 
 const result: GenerateDinoResponse = {
@@ -120,10 +121,16 @@ describe('CardScene', () => {
     expect(document.querySelector('.card-flipper')).toBeInTheDocument();
   });
 
-  it('spins the card 360 degrees when the rotate button is clicked', async () => {
-    render(<CardScene discovererName="Lucía" result={result} attrs={commonAttrs} />);
-    const button = screen.getByRole('button', { name: /girar carta/i });
-    fireEvent.click(button);
+  it('spins the card 360 degrees when the exposed spin handle is called', () => {
+    // The flip trigger button now lives in ResultScreen, grouped with
+    // "Detectar otra especie" (see CardSceneHandle in CardScene.tsx) — this
+    // exercises the same underlying spin behavior via the imperative handle
+    // ResultScreen calls it through.
+    const ref = createRef<CardSceneHandle>();
+    render(<CardScene ref={ref} discovererName="Lucía" result={result} attrs={commonAttrs} />);
+    act(() => {
+      ref.current?.spin();
+    });
     const flipper = document.querySelector('.card-flipper') as HTMLElement;
     expect(flipper.style.transform).toContain('360deg');
   });
