@@ -85,25 +85,24 @@ describe('CardScene', () => {
     expect(flipper.style.transform).toBe(baseline);
   });
 
-  it('tilts the card on a vertical drag without rotating it', () => {
+  it('leaves a pure vertical drag untouched, so the browser can scroll instead', () => {
+    // `.card-perspective` sets touch-action: pan-y (index.css) specifically
+    // so a vertical drag is handled by native page scroll, not the card —
+    // deliberately NOT reading deltaY into tilt on touch anymore (see
+    // handleTouchMove's comment in CardScene.tsx). Only a horizontal
+    // component should ever change the rendered transform.
     render(<CardScene discovererName="Lucía" result={result} attrs={commonAttrs} />);
     const perspective = document.querySelector('.card-perspective') as HTMLElement;
     const flipper = document.querySelector('.card-flipper') as HTMLElement;
 
     perspective.getBoundingClientRect = () =>
       ({ left: 0, top: 0, width: 200, height: 200 }) as DOMRect;
-    flipper.getBoundingClientRect = () => ({ left: 0, top: 0, width: 200, height: 200 }) as DOMRect;
 
     const baseline = flipper.style.transform;
-    const baselineRotateY = baseline.match(/rotateY\(([^)]+)\)/)?.[1];
 
-    // Pure vertical drag: should tilt the card (rotateX) but not change its
-    // rotateY (rotation stays horizontal-only).
     fireEvent.touchStart(perspective, { touches: [{ clientX: 100, clientY: 100 }] });
     fireEvent.touchMove(perspective, { touches: [{ clientX: 100, clientY: 150 }] });
-    expect(flipper.style.transform).toMatch(/rotateX\(-?\d+(\.\d+)?deg\)/);
-    expect(flipper.style.transform).not.toMatch(/rotateX\(0deg\)/);
-    expect(flipper.style.transform.match(/rotateY\(([^)]+)\)/)?.[1]).toBe(baselineRotateY);
+    expect(flipper.style.transform).toBe(baseline);
 
     fireEvent.touchEnd(perspective);
     expect(flipper.style.transform).toBe(baseline);

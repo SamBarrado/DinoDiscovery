@@ -82,7 +82,6 @@ export const CardScene = forwardRef<CardSceneHandle, CardSceneProps>(function Ca
   const spinTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const facingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const dragStartXRef = useRef<number | null>(null);
-  const dragStartYRef = useRef(0);
   const dragBaseSpinRef = useRef(0);
 
   const outerRef = useRef<HTMLDivElement>(null);
@@ -154,16 +153,26 @@ export const CardScene = forwardRef<CardSceneHandle, CardSceneProps>(function Ca
     setTilt({ rotateX: 0, rotateY: 0 });
   }
 
-  // Drag-to-rotate + drag-to-tilt: the card follows the finger while
-  // dragging (no CSS transition — `spinDeg`/`tilt` are updated directly per
-  // touchmove, so the rendered rotation always matches the live drag
-  // position 1:1, with no easing lag). Horizontal movement drives rotation
-  // (rotateY via spinDeg, unclamped, snaps to the nearest face on release)
-  // — this is deliberately the only axis that fully rotates the card, like
-  // spinning it around its vertical axis to flip it over. Vertical movement
-  // drives a clamped tilt (rotateX, ±MAX_TILT_DEG), the same axis the
-  // desktop hover effect already uses, so dragging up/down visibly tips the
-  // card toward/away from the viewer instead of doing nothing.
+  // Drag-to-rotate: the card follows the finger horizontally while dragging
+  // (no CSS transition — `spinDeg` is updated directly per touchmove, so the
+  // rendered rotation always matches the live drag position 1:1, with no
+  // easing lag) and snaps to the nearest face (front/back) on release.
+  //
+  // Vertical movement is deliberately NOT read into a tilt on touch anymore
+  // (it was, briefly — see below) — `.card-perspective` now sets
+  // `touch-action: pan-y` instead of `none` (see index.css), so the browser
+  // handles any vertical component of the drag as a native page scroll.
+  // This is an accessibility fix, not a style choice: the scaled-up card
+  // fills nearly the full viewport width on mobile, and `touch-action: none`
+  // meant a touch starting almost anywhere on screen fully claimed the
+  // gesture for the card, leaving only a sliver of screen (in practice,
+  // wherever a scrollbar happened to render) as the one place that still
+  // scrolled the page — a real WCAG 2.5.1 problem, not just an inconvenience,
+  // since reaching the buttons below the card required finding that sliver.
+  // Reading deltaY into rotateX here would fight the browser's own native
+  // scroll (both would react to the same vertical drag), so vertical tilt is
+  // simply not driven by touch at all now; the desktop mouse-hover tilt
+  // (handleMouseMove) is untouched and still uses this same rotateX state.
   //
   // The pivot stays at the card's default center (no custom transform-origin
   // here) — an earlier version anchored it to wherever the touch started,
@@ -173,17 +182,11 @@ export const CardScene = forwardRef<CardSceneHandle, CardSceneProps>(function Ca
   // corners), which read as broken rather than "grabbed". Reverted on
   // explicit feedback; don't reintroduce without a way to keep the element
   // visually centered despite the off-center pivot.
-  //
-  // An earlier version also routed vertical movement to page-scroll
-  // passthrough instead of driving the card at all; that was superseded on
-  // request — touching the card while dragging always drives the card now,
-  // not the page (see `touch-action: none` on .card-perspective in index.css).
   function handleTouchStart(event: React.TouchEvent<HTMLDivElement>) {
     if (isSpinning) return;
     const touch = event.touches[0];
     if (!touch) return;
     dragStartXRef.current = touch.clientX;
-    dragStartYRef.current = touch.clientY;
     dragBaseSpinRef.current = spinDeg;
   }
 
@@ -193,17 +196,10 @@ export const CardScene = forwardRef<CardSceneHandle, CardSceneProps>(function Ca
     if (!touch) return;
 
     const deltaX = touch.clientX - dragStartXRef.current;
-    const deltaY = touch.clientY - dragStartYRef.current;
-
     const nextSpin = dragBaseSpinRef.current + deltaX * DRAG_SENSITIVITY_DEG_PER_PX;
-    const nextTiltX = Math.max(
-      -MAX_TILT_DEG,
-      Math.min(MAX_TILT_DEG, -deltaY * DRAG_SENSITIVITY_DEG_PER_PX)
-    );
 
     setTransition(NO_TRANSITION);
     setSpinDeg(nextSpin);
-    setTilt({ rotateX: nextTiltX, rotateY: 0 });
     const totalDeg = baseFlipDeg + nextSpin;
     const mod = ((totalDeg % 360) + 360) % 360;
     setFacing(mod > 90 && mod < 270 ? 'back' : 'front');
