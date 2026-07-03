@@ -343,9 +343,11 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 
           <div className="flex items-center justify-between px-5 py-3 text-[11px]" style={{ color: FOOTER_TEXT_COLOR }}>
             <span>
-              Descubridor/a: <strong>{discovererName}</strong>
+              Descubierto por: <strong>{discovererName}</strong>
             </span>
-            <span className="text-right">{discoveryDate}</span>
+            <span className="text-right">
+              Encontrado por: <strong>{discoveryDate}</strong>
+            </span>
           </div>
         </div>
         </div>

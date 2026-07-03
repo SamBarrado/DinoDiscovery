@@ -43,10 +43,10 @@ describe('ResultScreen', () => {
     expect(onDownloadClick).toHaveBeenCalled();
   });
 
-  it('calls onRestart when "Detectar otra especie" is clicked', async () => {
+  it('calls onRestart when "Otra especie" is clicked', async () => {
     const onRestart = vi.fn();
     render(<ResultScreen result={result} attrs={attrs} discovererName="Lucía" onDownloadClick={() => {}} onRestart={onRestart} />);
-    await userEvent.click(screen.getByRole('button', { name: /detectar otra especie/i }));
+    await userEvent.click(screen.getByRole('button', { name: /otra especie/i }));
     expect(onRestart).toHaveBeenCalled();
   });
 

@@ -28,19 +28,23 @@ export function ResultScreen({ result, attrs, discovererName, onDownloadClick, o
         {/* Two-tier button hierarchy: the download CTA gets its own
             full-width row so it's unmissable as the primary action, while
             the secondary actions (flip, restart) sit in a fixed 2-column
-            grid below — a grid rather than the old flex-wrap row, so the
-            layout is identical (not reflow-dependent) from a narrow phone up
-            through desktop. Chosen over a sticky bottom bar / an on-card FAB
-            because both of those would overlap the card itself while
-            scrolling past it (a tall dino's cutout can pop past the frame
-            edge); this option always renders fully below the card. */}
-        <div className="mt-3 flex flex-col gap-2">
+            grid below, icon-on-top/label-below — a grid rather than the old
+            flex-wrap row, so the layout is identical (not reflow-dependent)
+            from a narrow phone up through desktop. Chosen over a sticky
+            bottom bar / an on-card FAB because both of those would overlap
+            the card itself while scrolling past it (a tall dino's cutout can
+            pop past the frame edge); this option always renders fully below
+            the card. `max-w-[420px] mx-auto` matches CardScene's own natural
+            width so this row is never wider than the card above it — before
+            this it inherited the outer `max-w-xl` (576px) wrapper, visibly
+            overhanging the card on any viewport wider than ~420px. */}
+        <div className="mt-3 flex flex-col gap-2 max-w-[420px] mx-auto">
           <button
             type="button"
             onClick={onDownloadClick}
-            className="w-full px-6 py-3 min-h-[48px] text-white font-display2 font-semibold uppercase tracking-wide rounded-[999px] bg-[#d1187f] hover:shadow-[6px_6px_0_0_#f5e6c8] transition-shadow"
+            className="w-full flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] text-white font-display2 font-semibold uppercase tracking-wide rounded-[999px] bg-[#d1187f] hover:shadow-[6px_6px_0_0_#f5e6c8] transition-shadow"
           >
-            Descargar carta
+            <span aria-hidden="true">⬇</span> Descargar carta
           </button>
           <div className="grid grid-cols-2 gap-2">
             <button
@@ -48,14 +52,16 @@ export function ResultScreen({ result, attrs, discovererName, onDownloadClick, o
               onClick={() => cardSceneRef.current?.spin()}
               className="flex flex-col items-center justify-center gap-1 min-h-[52px] px-4 py-2 text-brand-light font-display2 font-semibold uppercase text-sm tracking-wide rounded-2xl border border-brand/40 hover:border-brand transition-colors"
             >
-              Girar carta
+              <span aria-hidden="true" className="text-lg leading-none">⟳</span>
+              Girar
             </button>
             <button
               type="button"
               onClick={onRestart}
               className="flex flex-col items-center justify-center gap-1 min-h-[52px] px-4 py-2 text-brand-light font-display2 font-semibold uppercase text-sm tracking-wide rounded-2xl border border-brand/40 hover:border-brand transition-colors"
             >
-              Detectar otra especie
+              <span aria-hidden="true" className="text-lg leading-none">↻</span>
+              Otra especie
             </button>
           </div>
         </div>
