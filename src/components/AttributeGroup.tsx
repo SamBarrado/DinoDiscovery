@@ -1,4 +1,5 @@
 import { playClickSound } from '../sound';
+import { triggerHaptic, HAPTIC_TAP } from '../haptics';
 import { ATTRIBUTE_MEDALLION_PATHS } from '../data/cardTheme';
 
 interface AttributeGroupProps<T extends string> {
@@ -36,6 +37,7 @@ export function AttributeGroup<T extends string>({
             type="button"
             onClick={() => {
               playClickSound();
+              triggerHaptic(HAPTIC_TAP);
               onSelect(option);
             }}
             aria-pressed={selected === option}
