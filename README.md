@@ -128,11 +128,11 @@ What automated tests *don't* cover, and how those gaps got handled instead:
 
 ## 🎯 Design decisions
 
-**Never block the download on email verification.** Evaluated and explicitly rejected — Kit's free tier has no reliable way to notify the app of a confirmed subscription without a polling wait screen, and the fraction of users who'd abandon rather than wait wasn't worth it. The email is still captured and sent to Kit; it just never gates the certificate download.
+**Never block the download on email verification.** Evaluated and explicitly rejected — Kit's free tier has no reliable way to notify the app of a confirmed subscription without a polling wait screen, and the fraction of users who'd abandon rather than wait wasn't worth it. The email is still captured and sent to Kit; it just never gates the card download.
 
 **The on-screen watermark deters screenshots without pretending to block them.** No web API can stop a phone's native screenshot. Instead, the *interactive* card shows a repeating watermark; the hidden node that produces the actual email-gated download does not. A screenshot of the live card carries the watermark; the real download doesn't — making the legitimate download path the objectively better artifact, rather than trying (and failing) to block the illegitimate one. (Currently paused on-screen pending confirmation the download rendering is pixel-perfect — see `NOTES.md`.)
 
-**Cache by attribute combination, not by user.** The same five attributes always resolve to the same cached text + image (keyed by a hash of the combo, versioned so prompt changes can bust the cache), but each submission still gets its own `resultId` and shareable link — so two different kids can each "discover" the same species with their own certificate, without re-paying the generation cost.
+**Cache by attribute combination, not by user.** The same five attributes always resolve to the same cached text + image (keyed by a hash of the combo, versioned so prompt changes can bust the cache), but each submission still gets its own `resultId` and shareable link — so two different kids can each "discover" the same species with their own card, without re-paying the generation cost.
 
 **One source of truth for validation logic that exists in two places.** The wizard's attribute lists (frontend) and the backend's request validation are necessarily two separate lists (3,456 possible combinations) — documented explicitly in `NOTES.md` as a manual-sync point rather than pretending a single source of truth exists where it doesn't.
 
@@ -146,7 +146,7 @@ Dino-discovery/
 │   ├── components/              # Landing, wizard, Card/CardScene (the ARG card), result screen
 │   ├── data/                    # cardTheme (habitat art, rarity labels), attributes
 │   ├── utils/                   # speciesHash (rarity/ID), dinoCutout (chroma-key)
-│   └── certificate.ts           # html2canvas capture + share/download
+│   └── cardCapture.ts           # modern-screenshot capture + share/download
 ├── functions/                   # Cloudflare Pages Functions (backend)
 │   ├── api/                     # generate-dino, results/:id, subscribe
 │   └── lib/                     # anthropic, openai, r2, cache, rateLimit, kit

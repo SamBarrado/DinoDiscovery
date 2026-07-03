@@ -128,11 +128,11 @@ Lo que los tests automatizados *no* cubren, y cómo se gestionaron esos huecos:
 
 ## 🎯 Decisiones de diseño
 
-**Nunca bloquear la descarga por verificación de email.** Evaluado y rechazado explícitamente — el plan gratuito de Kit no tiene forma fiable de notificar a la app de una suscripción confirmada sin una pantalla de espera con polling, y la fracción de usuarios que abandonarían en vez de esperar no compensaba. El email se sigue capturando y enviando a Kit; simplemente nunca condiciona la descarga del certificado.
+**Nunca bloquear la descarga por verificación de email.** Evaluado y rechazado explícitamente — el plan gratuito de Kit no tiene forma fiable de notificar a la app de una suscripción confirmada sin una pantalla de espera con polling, y la fracción de usuarios que abandonarían en vez de esperar no compensaba. El email se sigue capturando y enviando a Kit; simplemente nunca condiciona la descarga de la carta.
 
 **La marca de agua en pantalla desincentiva las capturas de pantalla sin fingir bloquearlas.** Ninguna API web puede impedir la captura de pantalla nativa de un móvil. En su lugar, la carta *interactiva* muestra una marca de agua repetida; el nodo oculto que produce la descarga real (protegida por el gate de email) no la lleva. Una captura de pantalla de la carta en vivo lleva la marca de agua; la descarga real no — haciendo que la vía de descarga legítima sea el artefacto objetivamente mejor, en vez de intentar (y fallar en) bloquear la ilegítima. (Actualmente pausada en pantalla hasta confirmar que el renderizado de la descarga es pixel-perfect — ver `NOTES.md`.)
 
-**Cachear por combinación de atributos, no por usuario.** Los mismos cinco atributos siempre resuelven al mismo texto + imagen cacheados (indexados por un hash de la combinación, versionado para poder invalidar la caché si cambia el prompt), pero cada envío sigue recibiendo su propio `resultId` y enlace compartible — así que dos niños distintos pueden "descubrir" la misma especie cada uno con su propio certificado, sin volver a pagar el coste de generación.
+**Cachear por combinación de atributos, no por usuario.** Los mismos cinco atributos siempre resuelven al mismo texto + imagen cacheados (indexados por un hash de la combinación, versionado para poder invalidar la caché si cambia el prompt), pero cada envío sigue recibiendo su propio `resultId` y enlace compartible — así que dos niños distintos pueden "descubrir" la misma especie cada uno con su propia carta, sin volver a pagar el coste de generación.
 
 **Una única fuente de verdad para lógica de validación que existe en dos sitios.** Las listas de atributos del wizard (frontend) y la validación de peticiones del backend son necesariamente dos listas separadas (3.456 combinaciones posibles) — documentado explícitamente en `NOTES.md` como un punto de sincronización manual, en vez de fingir que existe una única fuente de verdad donde no la hay.
 
@@ -146,7 +146,7 @@ Dino-discovery/
 │   ├── components/              # Landing, wizard, Card/CardScene (la carta ARG), pantalla de resultado
 │   ├── data/                    # cardTheme (arte de hábitat, etiquetas de rareza), atributos
 │   ├── utils/                   # speciesHash (rareza/ID), dinoCutout (chroma-key)
-│   └── certificate.ts           # Captura con html2canvas + compartir/descargar
+│   └── cardCapture.ts           # Captura con modern-screenshot + compartir/descargar
 ├── functions/                   # Cloudflare Pages Functions (backend)
 │   ├── api/                     # generate-dino, results/:id, subscribe
 │   └── lib/                     # anthropic, openai, r2, cache, rateLimit, kit

@@ -18,8 +18,18 @@ export function ResultScreen({ result, attrs, discovererName, onDownloadClick, o
     confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
   }, []);
 
+  // Extra top/bottom padding (was pt-4/pb-8) is a deliberate scroll-comfort
+  // buffer, not just spacing taste: even with vertical touch drags now
+  // scrolling the page instead of tilting the card (touch-action: pan-y in
+  // index.css), a tall card can still fill nearly the entire viewport on
+  // short phones, leaving little visible non-card chrome to rest a thumb
+  // on. This padding guarantees a bit of always-scrollable page space
+  // above/below the card regardless of viewport height, as a
+  // belt-and-suspenders complement to the pan-y fix — not a replacement for
+  // it, and deliberately no on-screen hint copy since scrolling now works
+  // from anywhere, including directly on the card.
   return (
-    <div className="min-h-screen flex items-start justify-center pt-4 pb-8 px-4">
+    <div className="min-h-screen flex items-start justify-center pt-6 pb-16 px-4">
       <div className="max-w-xl w-full text-center">
         {/* Visually hidden but a real h1 — the only heading rendered on
             this screen before the Card's own h2 (dino name) further down,

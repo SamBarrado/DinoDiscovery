@@ -5,9 +5,9 @@ vi.mock('modern-screenshot', () => ({
 }));
 
 import { domToBlob } from 'modern-screenshot';
-import { captureCertificateAsPng, shareDinoImage } from './certificate';
+import { captureCardAsPng, shareDinoImage } from './cardCapture';
 
-describe('captureCertificateAsPng', () => {
+describe('captureCardAsPng', () => {
   beforeEach(() => {
     vi.stubGlobal('URL', { createObjectURL: vi.fn(() => 'blob:fake'), revokeObjectURL: vi.fn() });
   });
@@ -29,7 +29,7 @@ describe('captureCertificateAsPng', () => {
       return el;
     });
 
-    await captureCertificateAsPng(element, 'certificado-volcanrex.png');
+    await captureCardAsPng(element, 'carta-volcanrex.png');
 
     expect(domToBlob).toHaveBeenCalledWith(element, {
       scale: 2,
@@ -43,8 +43,8 @@ describe('captureCertificateAsPng', () => {
     vi.mocked(domToBlob).mockResolvedValue(null as unknown as Blob);
     const element = document.createElement('div');
 
-    await expect(captureCertificateAsPng(element, 'certificado-volcanrex.png')).rejects.toThrow(
-      'No se pudo generar la imagen del certificado'
+    await expect(captureCardAsPng(element, 'carta-volcanrex.png')).rejects.toThrow(
+      'No se pudo generar la imagen de la carta'
     );
   });
 });

@@ -22,7 +22,7 @@ async function shareOrDownload(
   URL.revokeObjectURL(url);
 }
 
-export async function captureCertificateAsPng(element: HTMLElement, fileName: string): Promise<void> {
+export async function captureCardAsPng(element: HTMLElement, fileName: string): Promise<void> {
   // Dynamically imported: only needed at this final "download the card"
   // step, not on initial page load, so it shouldn't sit in the main bundle
   // for every visitor who never gets this far.
@@ -48,7 +48,7 @@ export async function captureCertificateAsPng(element: HTMLElement, fileName: st
     type: 'image/png',
   });
   if (!blob) {
-    throw new Error('No se pudo generar la imagen del certificado');
+    throw new Error('No se pudo generar la imagen de la carta');
   }
 
   await shareOrDownload(blob, fileName);

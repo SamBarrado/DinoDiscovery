@@ -1,7 +1,7 @@
 {
   "name": "dino-discovery",
   "version": "1.0.0",
-  "description": "AI-powered dinosaur generator where children invent their own creature via attribute selection and receive a personalized \"Official Discoverer\" certificate",
+  "description": "AI-powered dinosaur generator where children invent their own creature via attribute selection and receive a personalized collectible discovery card",
   "main": "index.js",
   "directories": {
     "doc": "docs"

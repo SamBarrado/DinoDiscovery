@@ -25,7 +25,7 @@ import {
   GlobalBudgetError,
   DinoApiError,
 } from './api';
-import { captureCertificateAsPng } from './certificate';
+import { captureCardAsPng } from './cardCapture';
 import { captureAdminKeyFromUrl } from './adminAuth';
 import type {
   Size,
@@ -63,7 +63,7 @@ export default function App() {
   const [isDiscoveryDone, setIsDiscoveryDone] = useState(false);
   const [currentAttrs, setCurrentAttrs] = useState<DinoAttributes | null>(null);
 
-  const certificateRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -208,10 +208,10 @@ export default function App() {
     window.history.pushState(null, '', '/');
   }
 
-  async function downloadCertificate() {
-    if (certificateRef.current && result) {
-      await captureCertificateAsPng(
-        certificateRef.current,
+  async function downloadCard() {
+    if (cardRef.current && result) {
+      await captureCardAsPng(
+        cardRef.current,
         `carta-${result.commonName.toLowerCase().replace(/\s+/g, '-')}.png`
       );
     }
@@ -224,10 +224,10 @@ export default function App() {
         await subscribeEmail(result.resultId, email);
       } catch {
         // Captura del lead en Kit es best-effort: nunca debe bloquear la
-        // descarga del certificado, que es el valor central para el niño.
+        // descarga de la carta, que es el valor central para el niño.
       }
     }
-    await downloadCertificate();
+    await downloadCard();
   }
 
   return (
@@ -335,7 +335,7 @@ export default function App() {
             onRestart={handleRestart}
           />
           <div className="fixed -left-[9999px] top-0" aria-hidden="true">
-            <Card ref={certificateRef} discovererName={discovererName} result={result} attrs={currentAttrs} />
+            <Card ref={cardRef} discovererName={discovererName} result={result} attrs={currentAttrs} />
           </div>
         </Suspense>
       )}

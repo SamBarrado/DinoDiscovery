@@ -113,7 +113,7 @@ function useDescriptionClamp(description: string): {
 
 // The habitat tag's rotated label is pre-rendered onto a <canvas> and shown
 // as a plain <img> data URL, rather than rotated HTML/CSS or SVG text. This
-// dates back to when html2canvas was the capture library (src/certificate.ts
+// dates back to when html2canvas was the capture library (src/cardCapture.ts
 // — since replaced with modern-screenshot, see that file): html2canvas did
 // not reliably capture a CSS `transform: rotate()` on text — three different
 // approaches (flex-centered rotate, absolute-positioned translate+rotate,

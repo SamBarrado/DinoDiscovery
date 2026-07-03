@@ -10,12 +10,12 @@ vi.mock('./api', () => ({
   RateLimitError: class RateLimitError extends Error {},
   DinoApiError: class DinoApiError extends Error {},
 }));
-vi.mock('./certificate', () => ({
-  captureCertificateAsPng: vi.fn().mockResolvedValue(undefined),
+vi.mock('./cardCapture', () => ({
+  captureCardAsPng: vi.fn().mockResolvedValue(undefined),
 }));
 
 import { generateDino, subscribeEmail, fetchResult, RateLimitError } from './api';
-import { captureCertificateAsPng } from './certificate';
+import { captureCardAsPng } from './cardCapture';
 
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -26,7 +26,7 @@ describe('App wizard flow', () => {
     vi.mocked(generateDino).mockReset();
     vi.mocked(subscribeEmail).mockReset();
     vi.mocked(fetchResult).mockReset();
-    vi.mocked(captureCertificateAsPng).mockClear();
+    vi.mocked(captureCardAsPng).mockClear();
     window.history.pushState(null, '', '/');
   });
 
@@ -78,7 +78,7 @@ describe('App wizard flow', () => {
 
       expect(screen.queryByRole('heading', { name: 'Volcanrex' })).not.toBeInTheDocument();
       // Querying by heading role (not findByText) because the off-screen
-      // Certificate (kept mounted for the download capture) also renders
+      // Card (kept mounted for the download capture) also renders
       // the dino's commonName as a <p>, so a plain text query matches twice.
       expect(
         await screen.findByRole('heading', { name: 'Volcanrex' }, { timeout: 2000 })
@@ -199,10 +199,10 @@ describe('App wizard flow', () => {
     await userEvent.click(screen.getByRole('button', { name: /descargar carta/i }));
 
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(captureCertificateAsPng).not.toHaveBeenCalled();
+    expect(captureCardAsPng).not.toHaveBeenCalled();
   });
 
-  it('subscribes the email in Kit and downloads the certificate immediately, without waiting for confirmation', async () => {
+  it('subscribes the email in Kit and downloads the card immediately, without waiting for confirmation', async () => {
     vi.mocked(fetchResult).mockResolvedValue({
       scientificName: 'Volcanius ferox',
       commonName: 'Volcanrex',
@@ -223,10 +223,10 @@ describe('App wizard flow', () => {
 
     expect(subscribeEmail).toHaveBeenCalledWith('result-1', 'nina@example.com');
     expect(screen.queryByLabelText(/email/i)).not.toBeInTheDocument();
-    expect(captureCertificateAsPng).toHaveBeenCalledTimes(1);
+    expect(captureCardAsPng).toHaveBeenCalledTimes(1);
   });
 
-  it('still downloads the certificate even if subscribing to Kit fails', async () => {
+  it('still downloads the card even if subscribing to Kit fails', async () => {
     vi.mocked(fetchResult).mockResolvedValue({
       scientificName: 'Volcanius ferox',
       commonName: 'Volcanrex',
@@ -245,6 +245,6 @@ describe('App wizard flow', () => {
     await userEvent.type(screen.getByLabelText(/email/i), 'nina@example.com');
     await userEvent.click(screen.getByRole('button', { name: /confirmar/i }));
 
-    expect(captureCertificateAsPng).toHaveBeenCalledTimes(1);
+    expect(captureCardAsPng).toHaveBeenCalledTimes(1);
   });
 });
