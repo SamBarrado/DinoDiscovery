@@ -144,11 +144,17 @@ export function Landing({ onStart }: LandingProps) {
           images. -mt-[73px]/[101px]/[112px] approximate 35% of the
           video's own rendered height at each breakpoint (w-52/w-72/w-80
           above), since the clip is close to 1:1 aspect. */}
-      <img
-        src="/dino-discovery-logo.webp"
-        alt="Dino Discovery"
-        className="relative z-10 -mt-[73px] sm:-mt-[101px] md:-mt-[112px] w-full max-w-xs sm:max-w-sm md:max-w-md"
-      />
+      {/* `display: contents` so the h1 generates no box of its own — the
+          <img> lays out exactly as it did before this wrap, but the page
+          now has a real top-level heading (this is the only screen in the
+          app with no other text that could serve as one). */}
+      <h1 className="contents">
+        <img
+          src="/dino-discovery-logo.webp"
+          alt="Dino Discovery"
+          className="relative z-10 -mt-[73px] sm:-mt-[101px] md:-mt-[112px] w-full max-w-xs sm:max-w-sm md:max-w-md"
+        />
+      </h1>
       {/* The video plays once on load (no loop) and stops on its last frame.
           Tapping it replays the video from the start and plays this roar
           audio from 8s in (skipping the file's lead-in) to the end, together

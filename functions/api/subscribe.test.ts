@@ -65,17 +65,27 @@ describe('onRequestPost /api/subscribe', () => {
   it('returns 404 when the resultId does not exist', async () => {
     const env = createEnv();
     const response = await onRequestPost({
-      request: createRequest({ resultId: 'missing', email: 'nina@example.com' }),
+      request: createRequest({ resultId: '99999999-9999-4999-8999-999999999999', email: 'nina@example.com' }),
       env,
     } as any);
     expect(response.status).toBe(404);
   });
 
+  it('returns 400 for a resultId that is not UUID-shaped', async () => {
+    const env = createEnv();
+    const response = await onRequestPost({
+      request: createRequest({ resultId: 'not-a-uuid', email: 'nina@example.com' }),
+      env,
+    } as any);
+    expect(response.status).toBe(400);
+    expect(subscribeToKitForm).not.toHaveBeenCalled();
+  });
+
   it('returns 400 for an invalid email', async () => {
     const env = createEnv();
-    await saveResult(env.RESULTS_KV, 'result-1', createRecord());
+    await saveResult(env.RESULTS_KV, '11111111-1111-4111-8111-111111111111', createRecord());
     const response = await onRequestPost({
-      request: createRequest({ resultId: 'result-1', email: 'not-an-email' }),
+      request: createRequest({ resultId: '11111111-1111-4111-8111-111111111111', email: 'not-an-email' }),
       env,
     } as any);
     expect(response.status).toBe(400);
@@ -84,29 +94,29 @@ describe('onRequestPost /api/subscribe', () => {
 
   it('subscribes via Kit and stores the email on the result record', async () => {
     const env = createEnv();
-    await saveResult(env.RESULTS_KV, 'result-1', createRecord());
+    await saveResult(env.RESULTS_KV, '11111111-1111-4111-8111-111111111111', createRecord());
     const response = await onRequestPost({
-      request: createRequest({ resultId: 'result-1', email: 'nina@example.com' }),
+      request: createRequest({ resultId: '11111111-1111-4111-8111-111111111111', email: 'nina@example.com' }),
       env,
     } as any);
 
     expect(response.status).toBe(200);
     expect(subscribeToKitForm).toHaveBeenCalledWith(
       'nina@example.com',
-      'result-1',
+      '11111111-1111-4111-8111-111111111111',
       { apiKey: 'fake-kit-key', formId: 'form-42' }
     );
-    const stored = await getResult(env.RESULTS_KV, 'result-1');
+    const stored = await getResult(env.RESULTS_KV, '11111111-1111-4111-8111-111111111111');
     expect(stored?.email).toBe('nina@example.com');
   });
 
   it('returns 502 when the Kit API call fails', async () => {
     const env = createEnv();
-    await saveResult(env.RESULTS_KV, 'result-1', createRecord());
+    await saveResult(env.RESULTS_KV, '11111111-1111-4111-8111-111111111111', createRecord());
     vi.mocked(subscribeToKitForm).mockRejectedValueOnce(new Error('Kit API error: 422'));
 
     const response = await onRequestPost({
-      request: createRequest({ resultId: 'result-1', email: 'nina@example.com' }),
+      request: createRequest({ resultId: '11111111-1111-4111-8111-111111111111', email: 'nina@example.com' }),
       env,
     } as any);
     expect(response.status).toBe(502);
@@ -114,15 +124,15 @@ describe('onRequestPost /api/subscribe', () => {
 
   it('returns 429 after exceeding the rate limit for an IP', async () => {
     const env = createEnv();
-    await saveResult(env.RESULTS_KV, 'result-1', createRecord());
+    await saveResult(env.RESULTS_KV, '11111111-1111-4111-8111-111111111111', createRecord());
     for (let i = 0; i < 5; i++) {
       await onRequestPost({
-        request: createRequest({ resultId: 'result-1', email: 'nina@example.com' }, '9.9.9.9'),
+        request: createRequest({ resultId: '11111111-1111-4111-8111-111111111111', email: 'nina@example.com' }, '9.9.9.9'),
         env,
       } as any);
     }
     const response = await onRequestPost({
-      request: createRequest({ resultId: 'result-1', email: 'nina@example.com' }, '9.9.9.9'),
+      request: createRequest({ resultId: '11111111-1111-4111-8111-111111111111', email: 'nina@example.com' }, '9.9.9.9'),
       env,
     } as any);
     expect(response.status).toBe(429);

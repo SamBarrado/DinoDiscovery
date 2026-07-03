@@ -9,6 +9,7 @@ import { storeImageInR2, type R2BucketLike } from '../lib/r2';
 import { isValidAdminKey } from '../lib/adminAuth';
 import { saveResult } from '../lib/results';
 import { readJsonBody } from '../lib/requestBody';
+import { isAllowedOrigin } from '../lib/origin';
 
 interface Env {
   RATE_LIMIT_KV: KVLike;
@@ -51,6 +52,11 @@ function sanitizeDiscovererName(name: string): string {
 
 export async function onRequestPost(context: { request: Request; env: Env }): Promise<Response> {
   const { request, env } = context;
+
+  if (!isAllowedOrigin(request.headers.get('Origin'))) {
+    return Response.json({ error: 'API_ERROR', message: 'Origen no permitido' }, { status: 403 });
+  }
+
   const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
   const isAdmin = isValidAdminKey(request.headers.get('X-Admin-Key'), env.ADMIN_KEY);
 

@@ -82,7 +82,14 @@ export default function App() {
   }, []);
 
   async function loadResultFromUrl(resultId: string) {
-    const fetched = await fetchResult(resultId);
+    let fetched;
+    try {
+      fetched = await fetchResult(resultId);
+    } catch {
+      setErrorMessage('No se pudo cargar este descubrimiento. Revisa tu conexión e inténtalo de nuevo.');
+      setFlowState('error');
+      return;
+    }
     if (!fetched) {
       setErrorMessage('Este descubrimiento ya no está disponible.');
       setFlowState('error');

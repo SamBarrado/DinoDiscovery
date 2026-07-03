@@ -21,9 +21,13 @@ export function ResultScreen({ result, attrs, discovererName, onDownloadClick, o
   return (
     <div className="min-h-screen flex items-start justify-center pt-4 pb-8 px-4">
       <div className="max-w-xl w-full text-center">
-        <p role="status" aria-live="polite" className="sr-only">
+        {/* Visually hidden but a real h1 — the only heading rendered on
+            this screen before the Card's own h2 (dino name) further down,
+            so this establishes the page's top-level heading without
+            changing the visual design. */}
+        <h1 role="status" aria-live="polite" className="sr-only">
           ¡Nueva especie descubierta! {result.commonName}, {result.scientificName}.
-        </p>
+        </h1>
         <CardScene ref={cardSceneRef} discovererName={discovererName} result={result} attrs={attrs} />
         {/* Two-tier button hierarchy: the download CTA gets its own
             full-width row so it's unmissable as the primary action, while

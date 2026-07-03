@@ -1,0 +1,16 @@
+{
+  "name": "Dino Discovery",
+  "short_name": "Dino Discovery",
+  "description": "Genera un dinosaurio con IA a partir de los atributos que elijas y consigue una carta coleccionable única.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d1a0f",
+  "theme_color": "#0d1a0f",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

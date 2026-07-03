@@ -1,0 +1,14 @@
+# Dino Discovery
+
+> AI-powered dinosaur generator for kids. Children pick five attributes (size, habitat, diet, feature, personality) through a short wizard, and get back an AI-generated dinosaur — a name, a short description, and an illustrated image — reframed as an alternate-reality-game species discovery: a deterministic species ID, a rarity tier, illustrated habitat art, and a 3D flip/tilt collectible card that can be downloaded and shared.
+
+- Live app: https://dino-discovery-generator.pages.dev
+- Free to use, no account required.
+- Each combination of the five attributes deterministically maps to the same species ID and rarity tier, so the same choices always "rediscover" the same species.
+- Generated cards can be downloaded as a PNG and shared via a unique link.
+
+## Key facts
+
+- Built with Vite, React, and TypeScript, deployed on Cloudflare Pages.
+- Dinosaur images and descriptions are generated with AI (Anthropic Claude for text, OpenAI for images) and cached, so repeated attribute combinations reuse the same generated species instead of creating a new one each time.
+- Intended audience: children aged roughly 5–10, in Spanish.

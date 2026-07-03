@@ -9,9 +9,11 @@ export function NameStep({ value, onChange, onNext }: NameStepProps) {
 
   return (
     <div className="text-center max-w-sm sm:max-w-md w-full">
-      <h2 className="font-display2 font-semibold text-2xl sm:text-3xl text-cream mb-4 uppercase tracking-wide">
+      {/* First wizard screen — the only heading rendered at this point, so
+          it's the page's h1 (see the matching note in AttributeGroup.tsx). */}
+      <h1 className="font-display2 font-semibold text-2xl sm:text-3xl text-cream mb-4 uppercase tracking-wide">
         ¿Cómo te llamas, descubridor/a?
-      </h2>
+      </h1>
       <input
         type="text"
         value={value}

@@ -3,10 +3,16 @@ import { getResult, setResultEmail } from '../lib/results';
 import { subscribeToKitForm } from '../lib/kit';
 import { isValidEmail } from '../../shared/validateEmail';
 import { readJsonBody } from '../lib/requestBody';
+import { isAllowedOrigin } from '../lib/origin';
 
 // A resultId (UUID) plus an email address — nowhere near this generous,
 // but it bounds a malicious oversized body.
 const MAX_BODY_BYTES = 2000;
+// Every resultId this app ever creates comes from crypto.randomUUID()
+// (see generate-dino.ts) — reject anything else before it's used as a KV
+// key or forwarded to Kit's third-party API, mirroring the same
+// defense-in-depth pattern functions/images/[key].ts uses for R2 keys.
+const VALID_RESULT_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 interface Env {
   RATE_LIMIT_KV: KVLike;
@@ -28,6 +34,11 @@ function isValidRequest(body: unknown): body is SubscribeRequest {
 
 export async function onRequestPost(context: { request: Request; env: Env }): Promise<Response> {
   const { request, env } = context;
+
+  if (!isAllowedOrigin(request.headers.get('Origin'))) {
+    return Response.json({ error: 'API_ERROR', message: 'Origen no permitido' }, { status: 403 });
+  }
+
   const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
 
   const rateLimitResult = await checkAndIncrementRateLimit(env.RATE_LIMIT_KV, `subscribe:${ip}`);
@@ -44,7 +55,7 @@ export async function onRequestPost(context: { request: Request; env: Env }): Pr
   }
   const body = bodyResult.body;
 
-  if (!isValidRequest(body)) {
+  if (!isValidRequest(body) || !VALID_RESULT_ID.test(body.resultId)) {
     return Response.json({ error: 'API_ERROR', message: 'Petición inválida' }, { status: 400 });
   }
 

@@ -18,9 +18,14 @@ export function AttributeGroup<T extends string>({
 }: AttributeGroupProps<T>) {
   return (
     <div className="mb-6">
-      <h3 className="font-display2 font-semibold text-2xl sm:text-3xl text-cream mb-3 sm:mb-4 uppercase tracking-wide text-center">
+      {/* Each wizard step fully replaces the previous one in the DOM (App.tsx
+          renders exactly one at a time), so it's the only heading on screen
+          at any given moment — h1 here, not h3, so screen-reader users
+          landing mid-wizard get a real top-level heading instead of a
+          heading hierarchy that skips straight from nothing to h3. */}
+      <h1 className="font-display2 font-semibold text-2xl sm:text-3xl text-cream mb-3 sm:mb-4 uppercase tracking-wide text-center">
         {label}
-      </h3>
+      </h1>
       {description && (
         <p className="text-sage text-sm text-center mb-3 sm:mb-4 italic">{description}</p>
       )}
