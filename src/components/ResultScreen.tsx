@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import confetti from 'canvas-confetti';
 import type { GenerateDinoResponse, DinoAttributes } from '../../shared/types';
 import { CardScene, type CardSceneHandle } from './CardScene';
@@ -15,6 +15,12 @@ interface ResultScreenProps {
 
 export function ResultScreen({ result, attrs, discovererName, onDownloadClick, onRestart }: ResultScreenProps) {
   const cardSceneRef = useRef<CardSceneHandle>(null);
+  // Not used to drive any visual change — the card's own flip animation is
+  // entirely CSS/imperative (see CardScene.tsx). This exists purely so the
+  // "Girar" button can carry an aria-label describing which face is
+  // currently showing, since the 3D tilt/flip interaction itself has no
+  // keyboard or screen-reader-native equivalent otherwise.
+  const [cardFacing, setCardFacing] = useState<'front' | 'back'>('back');
 
   useEffect(() => {
     confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
@@ -45,7 +51,13 @@ export function ResultScreen({ result, attrs, discovererName, onDownloadClick, o
         <h1 role="status" aria-live="polite" className="sr-only">
           ¡Nueva especie descubierta! {result.commonName}, {result.scientificName}.
         </h1>
-        <CardScene ref={cardSceneRef} discovererName={discovererName} result={result} attrs={attrs} />
+        <CardScene
+          ref={cardSceneRef}
+          discovererName={discovererName}
+          result={result}
+          attrs={attrs}
+          onFacingChange={setCardFacing}
+        />
         {/* Two-tier button hierarchy: the download CTA gets its own
             full-width row so it's unmissable as the primary action, while
             the secondary actions (flip, restart) sit in a fixed 2-column
@@ -66,7 +78,7 @@ export function ResultScreen({ result, attrs, discovererName, onDownloadClick, o
               triggerHaptic(HAPTIC_TAP);
               onDownloadClick();
             }}
-            className="w-full flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] text-white font-display2 font-semibold uppercase tracking-wide rounded-[999px] bg-[#d1187f] hover:shadow-[6px_6px_0_0_#f5e6c8] transition-shadow"
+            className="w-full flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] text-white font-display2 font-semibold uppercase tracking-wide rounded-[999px] bg-[#d1187f] hover:shadow-[6px_6px_0_0_#f5e6c8] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-[#0d1a0f]"
           >
             <span aria-hidden="true">⬇</span> Descargar carta
           </button>
@@ -77,7 +89,12 @@ export function ResultScreen({ result, attrs, discovererName, onDownloadClick, o
                 triggerHaptic(HAPTIC_TAP);
                 cardSceneRef.current?.spin();
               }}
-              className="flex flex-col items-center justify-center gap-1 min-h-[52px] px-4 py-2 text-brand-light font-display2 font-semibold uppercase text-sm tracking-wide rounded-2xl border border-brand/40 hover:border-brand transition-colors"
+              aria-label={
+                cardFacing === 'front'
+                  ? 'Girar carta para ver el reverso'
+                  : 'Girar carta para ver el anverso'
+              }
+              className="flex flex-col items-center justify-center gap-1 min-h-[52px] px-4 py-2 text-brand-light font-display2 font-semibold uppercase text-sm tracking-wide rounded-2xl border border-brand/40 hover:border-brand transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-[#0d1a0f]"
             >
               <span aria-hidden="true" className="text-lg leading-none">⟳</span>
               Girar
@@ -88,7 +105,7 @@ export function ResultScreen({ result, attrs, discovererName, onDownloadClick, o
                 triggerHaptic(HAPTIC_TAP);
                 onRestart();
               }}
-              className="flex flex-col items-center justify-center gap-1 min-h-[52px] px-4 py-2 text-brand-light font-display2 font-semibold uppercase text-sm tracking-wide rounded-2xl border border-brand/40 hover:border-brand transition-colors"
+              className="flex flex-col items-center justify-center gap-1 min-h-[52px] px-4 py-2 text-brand-light font-display2 font-semibold uppercase text-sm tracking-wide rounded-2xl border border-brand/40 hover:border-brand transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-[#0d1a0f]"
             >
               <span aria-hidden="true" className="text-lg leading-none">↻</span>
               Otra especie

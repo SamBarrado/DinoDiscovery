@@ -7,6 +7,12 @@ interface CardSceneProps {
   discovererName: string;
   result: GenerateDinoResponse;
   attrs: DinoAttributes;
+  // Lets ResultScreen build a screen-reader-facing description of which face
+  // is currently showing (e.g. for the "Girar" button's aria-label) without
+  // this component needing to render its own trigger — facing's animation
+  // state lives entirely here, so it can't otherwise escape as anything but
+  // an imperative, non-reactive read.
+  onFacingChange?: (facing: 'front' | 'back') => void;
 }
 
 // The flip trigger used to be a button rendered by CardScene itself, but the
@@ -64,7 +70,7 @@ const SPIN_TRANSITION = `transform ${SPIN_DURATION_MS}ms ease-in-out`;
 const NO_TRANSITION = 'none';
 
 export const CardScene = forwardRef<CardSceneHandle, CardSceneProps>(function CardScene(
-  { discovererName, result, attrs },
+  { discovererName, result, attrs, onFacingChange },
   ref
 ) {
   const [hasFlippedIn, setHasFlippedIn] = useState(false);
@@ -263,6 +269,11 @@ export const CardScene = forwardRef<CardSceneHandle, CardSceneProps>(function Ca
   }
 
   useImperativeHandle(ref, () => ({ spin: handleSpinClick }));
+
+  useEffect(() => {
+    onFacingChange?.(facing);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [facing]);
 
   const baseFlipDeg = hasFlippedIn ? 0 : 180;
   const totalRotateY = baseFlipDeg + tilt.rotateY + spinDeg;
