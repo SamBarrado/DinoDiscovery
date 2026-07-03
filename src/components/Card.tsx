@@ -346,7 +346,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
               Descubierto por: <strong>{discovererName}</strong>
             </span>
             <span className="text-right">
-              Encontrado por: <strong>{discoveryDate}</strong>
+              Fecha: <strong>{discoveryDate}</strong>
             </span>
           </div>
         </div>
