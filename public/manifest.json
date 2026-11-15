@@ -4,8 +4,8 @@
   "description": "Genera un dinosaurio con IA a partir de los atributos que elijas y consigue una carta coleccionable única.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0d1a0f",
-  "theme_color": "#0d1a0f",
+  "background_color": "#1a0838",
+  "theme_color": "#1a0838",
   "icons": [
     {
       "src": "/apple-touch-icon.png",

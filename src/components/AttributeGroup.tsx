@@ -28,7 +28,7 @@ export function AttributeGroup<T extends string>({
         {label}
       </h1>
       {description && (
-        <p className="text-sage text-sm text-center mb-3 sm:mb-4 italic">{description}</p>
+        <p className="text-cream/90 text-sm text-center mb-3 sm:mb-4 italic">{description}</p>
       )}
       <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
         {options.map((option) => (

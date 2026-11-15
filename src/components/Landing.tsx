@@ -166,10 +166,10 @@ export function Landing({ onStart }: LandingProps) {
           counter — a flavor stat, not real data, that ticks up slowly
           while this screen is open to feel like a living ARG rather than
           a static tally. */}
-      <p className="mt-1 sm:mt-2 text-sm sm:text-base uppercase tracking-[2px] text-sage font-body">
+      <p className="mt-1 sm:mt-2 text-sm sm:text-base uppercase tracking-[2px] text-cream font-body">
         Cada carta es una especie única
       </p>
-      <p className="text-sm sm:text-base uppercase tracking-[2px] text-sage font-body">
+      <p className="text-sm sm:text-base uppercase tracking-[2px] text-cream font-body">
         #{formatDiscoveryCount(discoveryCount)} descubiertas
       </p>
       <button
@@ -179,7 +179,7 @@ export function Landing({ onStart }: LandingProps) {
       >
         ¡Comienza a explorar!
       </button>
-      <span className="mt-4 sm:mt-6 text-xs tracking-[2px] text-sage/50">
+      <span className="mt-4 sm:mt-6 text-xs tracking-[2px] text-cream/70">
         {APP_VERSION}
       </span>
     </div>
