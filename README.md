@@ -35,7 +35,7 @@ The dev server above runs the frontend alone — the wizard and card work, but g
 
 The starting point wasn't "let's build an AI dinosaur generator" in the abstract — it was a reference trading card I liked the layout of, and a question: could a kid design *this*, with an AI filling in the art and the flavor text?
 
-![Reference card layout that inspired the collectible-card framing](docs/screenshots/design-reference-card.png)
+<img src="docs/screenshots/design-reference-card.png" alt="Reference card layout that inspired the collectible-card framing" width="340">
 
 That reference (a fantasy-TCG-style card, dark background, stone attribute panel, rarity/tier footer) is where the "collectible card, not just a generated image" framing came from. The actual visual language ended up diverging a lot from this reference over several restyles (see "How I built it" below) — but the structural idea of *attributes → art → rarity → collectible object* traces straight back to it.
 
@@ -108,7 +108,7 @@ Fit-to-container scaling for the card (a `ResizeObserver`-driven `transform: sca
 
 | Landing | Wizard | Loading | Result card |
 |---|---|---|---|
-| ![Landing screen](docs/screenshots/landing.png) | ![Wizard attribute step](docs/screenshots/wizard.png) | ![Loading screen](docs/screenshots/loading.png) | ![Result card](docs/screenshots/result-card.png) |
+| ![Landing screen](docs/screenshots/landing-v2.png) | ![Wizard attribute step](docs/screenshots/wizard-v2.png) | ![Loading screen](docs/screenshots/loading-v2.png) | ![Result card](docs/screenshots/result-card.png) |
 
 The result card above ("Tragahuevosaurio") is a real generation, not a mockup — Coloso / Océano / Oófago / Cola poderosa / Veloz, rare tier.
 

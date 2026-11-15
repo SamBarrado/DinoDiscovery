@@ -35,7 +35,7 @@ El servidor de arriba corre solo el frontend — el wizard y la carta funcionan,
 
 El punto de partida no fue "vamos a construir un generador de dinosaurios con IA" en abstracto — fue una carta de referencia cuyo layout me gustaba, y una pregunta: ¿podría un niño diseñar *esto*, con una IA rellenando el arte y el texto de sabor?
 
-![Layout de carta de referencia que inspiró el enfoque de carta coleccionable](docs/screenshots/design-reference-card.png)
+<img src="docs/screenshots/design-reference-card.png" alt="Layout de carta de referencia que inspiró el enfoque de carta coleccionable" width="340">
 
 Esa referencia (una carta estilo TCG de fantasía, fondo oscuro, panel de atributos en piedra, pie con rareza/tier) es de donde salió el enfoque de "carta coleccionable, no solo una imagen generada". El lenguaje visual final acabó divergiendo bastante de esta referencia tras varios restyles (ver "Cómo lo construí" más abajo) — pero la idea estructural de *atributos → arte → rareza → objeto coleccionable* viene directamente de ahí.
 
@@ -108,7 +108,7 @@ Escalado ajustado al contenedor para la carta (un wrapper `transform: scale()` d
 
 | Landing | Wizard | Carga | Carta de resultado |
 |---|---|---|---|
-| ![Pantalla de inicio](docs/screenshots/landing.png) | ![Paso de atributo del wizard](docs/screenshots/wizard.png) | ![Pantalla de carga](docs/screenshots/loading.png) | ![Carta de resultado](docs/screenshots/result-card.png) |
+| ![Pantalla de inicio](docs/screenshots/landing-v2.png) | ![Paso de atributo del wizard](docs/screenshots/wizard-v2.png) | ![Pantalla de carga](docs/screenshots/loading-v2.png) | ![Carta de resultado](docs/screenshots/result-card.png) |
 
 La carta de resultado de arriba ("Tragahuevosaurio") es una generación real, no un mockup — Coloso / Océano / Oófago / Cola poderosa / Veloz, rareza rara.
 
