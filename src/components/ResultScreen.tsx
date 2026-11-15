@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import confetti from 'canvas-confetti';
 import type { GenerateDinoResponse, DinoAttributes } from '../../shared/types';
 import { CardScene, type CardSceneHandle } from './CardScene';
@@ -11,6 +11,61 @@ interface ResultScreenProps {
   discovererName: string;
   onDownloadClick: () => void;
   onRestart: () => void;
+}
+
+// Shared by the three dock segments below. `rounded-[999px]`, not
+// `rounded-full` — this project's Tailwind theme resolves `rounded-full` to 4px.
+const DOCK_BUTTON_BASE =
+  'min-h-[56px] px-1 flex flex-col items-center justify-center gap-[3px] rounded-[999px] font-display2 font-semibold uppercase text-[11px] tracking-wider whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-[#0d1a0f]';
+
+// Inline stroke icons (Lucide shapes) rather than glyphs — the old ⟳/↻ pair
+// for "Girar"/"Otra especie" were nearly indistinguishable. Decorative only
+// (aria-hidden); each button carries its own accessible name.
+function IconBase({ children }: { children: ReactNode }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="shrink-0"
+    >
+      {children}
+    </svg>
+  );
+}
+
+function FlipIcon() {
+  return (
+    <IconBase>
+      <path d="M8 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h3" />
+      <path d="M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3" />
+      <path d="M12 20v2M12 14v2M12 8v2M12 2v2" />
+    </IconBase>
+  );
+}
+
+function DownloadIcon() {
+  return (
+    <IconBase>
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
+    </IconBase>
+  );
+}
+
+function SparklesIcon() {
+  return (
+    <IconBase>
+      <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" />
+    </IconBase>
+  );
 }
 
 export function ResultScreen({ result, attrs, discovererName, onDownloadClick, onRestart }: ResultScreenProps) {
@@ -58,59 +113,63 @@ export function ResultScreen({ result, attrs, discovererName, onDownloadClick, o
           attrs={attrs}
           onFacingChange={setCardFacing}
         />
-        {/* Two-tier button hierarchy: the download CTA gets its own
-            full-width row so it's unmissable as the primary action, while
-            the secondary actions (flip, restart) sit in a fixed 2-column
-            grid below, icon-on-top/label-below — a grid rather than the old
-            flex-wrap row, so the layout is identical (not reflow-dependent)
-            from a narrow phone up through desktop. Chosen over a sticky
-            bottom bar / an on-card FAB because both of those would overlap
-            the card itself while scrolling past it (a tall dino's cutout can
-            pop past the frame edge); this option always renders fully below
-            the card. `max-w-[420px] mx-auto` matches CardScene's own natural
-            width so this row is never wider than the card above it — before
-            this it inherited the outer `max-w-xl` (576px) wrapper, visibly
-            overhanging the card on any viewport wider than ~420px. */}
-        <div className="mt-3 flex flex-col gap-2 max-w-[420px] mx-auto">
+        {/* Single-row "dock": one pill with three segments (flip | download |
+            new species), icon on top / short label below, the download
+            segment filled magenta as the primary action. Replaced a
+            two-tier layout (full-width download + 2-col secondary grid)
+            whose ⟳/↻ icons were near-identical. Still always renders fully
+            below the card — a sticky bar / on-card FAB was rejected earlier
+            because both can overlap the card (a tall dino's cutout can pop
+            past the frame edge). Visible labels are shorter than the
+            accessible names ("Descargar" vs aria-label "Descargar carta")
+            so they fit one row at 343px; each aria-label still contains its
+            visible text. `max-w-[420px] mx-auto` matches CardScene's natural
+            width so the dock is never wider than the card above it. */}
+        <div
+          role="group"
+          aria-label="Acciones de la carta"
+          className="mt-3 max-w-[420px] mx-auto grid grid-cols-[1fr_1.3fr_1fr] gap-0.5 p-1 rounded-[999px] bg-white/5 border border-brand/35 backdrop-blur-sm"
+        >
+          <button
+            type="button"
+            onClick={() => {
+              triggerHaptic(HAPTIC_TAP);
+              cardSceneRef.current?.spin();
+            }}
+            aria-label={
+              cardFacing === 'front'
+                ? 'Girar carta para ver el reverso'
+                : 'Girar carta para ver el anverso'
+            }
+            className={`${DOCK_BUTTON_BASE} text-brand-light hover:bg-brand/15`}
+          >
+            <FlipIcon />
+            Girar
+          </button>
           <button
             type="button"
             onClick={() => {
               triggerHaptic(HAPTIC_TAP);
               onDownloadClick();
             }}
-            className="w-full flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] text-white font-display2 font-semibold uppercase tracking-wide rounded-[999px] bg-[#d1187f] hover:shadow-[6px_6px_0_0_#f5e6c8] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-[#0d1a0f]"
+            aria-label="Descargar carta"
+            className={`${DOCK_BUTTON_BASE} text-white bg-[#d1187f] shadow-[0_4px_14px_rgba(209,24,127,0.45)] hover:bg-[#e01c8a]`}
           >
-            <span aria-hidden="true">⬇</span> Descargar carta
+            <DownloadIcon />
+            Descargar
           </button>
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                triggerHaptic(HAPTIC_TAP);
-                cardSceneRef.current?.spin();
-              }}
-              aria-label={
-                cardFacing === 'front'
-                  ? 'Girar carta para ver el reverso'
-                  : 'Girar carta para ver el anverso'
-              }
-              className="flex flex-col items-center justify-center gap-1 min-h-[52px] px-4 py-2 text-brand-light font-display2 font-semibold uppercase text-sm tracking-wide rounded-2xl border border-brand/40 hover:border-brand transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-[#0d1a0f]"
-            >
-              <span aria-hidden="true" className="text-lg leading-none">⟳</span>
-              Girar
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                triggerHaptic(HAPTIC_TAP);
-                onRestart();
-              }}
-              className="flex flex-col items-center justify-center gap-1 min-h-[52px] px-4 py-2 text-brand-light font-display2 font-semibold uppercase text-sm tracking-wide rounded-2xl border border-brand/40 hover:border-brand transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-[#0d1a0f]"
-            >
-              <span aria-hidden="true" className="text-lg leading-none">↻</span>
-              Otra especie
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => {
+              triggerHaptic(HAPTIC_TAP);
+              onRestart();
+            }}
+            aria-label="Otra especie"
+            className={`${DOCK_BUTTON_BASE} text-brand-light hover:bg-brand/15`}
+          >
+            <SparklesIcon />
+            Otra especie
+          </button>
         </div>
       </div>
     </div>

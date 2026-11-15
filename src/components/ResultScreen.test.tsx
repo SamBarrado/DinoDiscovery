@@ -50,6 +50,18 @@ describe('ResultScreen', () => {
     expect(onRestart).toHaveBeenCalled();
   });
 
+  it('renders the three actions as one dock group, each with a visible label', () => {
+    render(<ResultScreen result={result} attrs={attrs} discovererName="Lucía" onDownloadClick={() => {}} onRestart={() => {}} />);
+    const dock = screen.getByRole('group', { name: /acciones de la carta/i });
+    const buttons = dock.querySelectorAll('button');
+    expect(buttons).toHaveLength(3);
+    expect(dock).toHaveTextContent('Girar');
+    expect(dock).toHaveTextContent('Descargar');
+    expect(dock).toHaveTextContent('Otra especie');
+    // The flip button's accessible name describes which face it will reveal.
+    expect(screen.getByRole('button', { name: /girar carta para ver/i })).toBeInTheDocument();
+  });
+
   it('shows the species ID and rarity', () => {
     render(<ResultScreen result={result} attrs={attrs} discovererName="Lucía" onDownloadClick={() => {}} onRestart={() => {}} />);
     expect(screen.getAllByText(/^DX-[0-9A-Z]{3}-[0-9A-Z]{3}$/).length).toBeGreaterThan(0);
