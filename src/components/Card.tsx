@@ -463,9 +463,9 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
         </div>
 
         {/* Holo-foil sheen — rare/epic/legendary only, matching the tiers
-            that previously got a rarity glow (see NOTES.md for the glow's
-            history: it went through a rarity-colored <canvas> before being
-            dropped for this foil look instead). Sits above the dino (z-20)
+            that previously got a rarity glow (which went through a
+            rarity-colored <canvas> before being dropped for this foil look
+            instead). Sits above the dino (z-20)
             and the text overlay (z-30) since a real foil laminate covers
             the whole card front, but its own mask fades it out before it
             reaches the description text block so legibility isn't
@@ -478,7 +478,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
             on `transform`/tilt-driven interaction, the one class of
             continuous update already proven safe inside this 3D scene,
             instead of the `box-shadow`/`filter` properties that broke
-            things in earlier rarity-glow attempts (see NOTES.md).
+            things in earlier rarity-glow attempts.
 
             The base offset (20%, not 50%) biases the visible rainbow band
             toward the art's top-left corner at rest, so the diagonal sweep

@@ -32,7 +32,7 @@ export async function captureCardAsPng(element: HTMLElement, fileName: string): 
   // a canvas), which is exactly why it kept producing bugs here that only
   // showed up in the captured output, never live — the rotated habitat-tag
   // label rendering blank, and a white-corner artifact around the card's
-  // rounded corners (see git history / NOTES.md for both). modern-screenshot
+  // rounded corners (see git history for both). modern-screenshot
   // instead serializes the DOM into an SVG <foreignObject> and lets the
   // *browser's real rendering engine* draw it, then rasterizes that — so
   // CSS features render exactly as they do live, by construction, instead

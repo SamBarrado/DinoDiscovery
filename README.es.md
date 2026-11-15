@@ -52,7 +52,7 @@ Niños y niñas (aproximadamente 5–10 años) a los que les gustan los dinosaur
 | Capa | Elección | Por qué |
 |---|---|---|
 | **Frontend** | React 19 + TypeScript (strict) + Vite | Ciclo de desarrollo rápido, el tipado estricto detecta desajustes de atributos/rareza en tiempo de compilación |
-| **Estilos** | Tailwind CSS | Utility-first encajaba con el layout de la carta, muy literal en matemática de píxeles (ver "Card layout" en `NOTES.md`) |
+| **Estilos** | Tailwind CSS | Utility-first encajaba con el layout de la carta, muy literal en matemática de píxeles |
 | **Backend** | Cloudflare Pages Functions | Mismo despliegue que el frontend, sin un host de API separado que mantener |
 | **Almacenamiento** | Cloudflare KV (caché, rate-limit, resultados) + R2 (imágenes generadas) | Serverless, pago por uso, sin base de datos que aprovisionar para un prototipo de bajo tráfico |
 | **Generación de texto** | Anthropic Claude (`claude-haiku-4-5`) | Barato, rápido, salida JSON estricta fiable para nombre/descripción |
@@ -88,7 +88,7 @@ La pantalla de resultado se reformuló alrededor de la carta de referencia de ar
 
 ### Fase 3 — La carta como objeto físico
 
-Interacción 3D de giro/inclinación: arrastrar horizontalmente para rotar, arrastrar verticalmente para inclinar, encaje automático a la cara más cercana al soltar, un brillo holo-foil para cartas de rareza rara+ construido con tres capas CSS que se mueven de forma independiente (una sola capa reactiva se leía como "deslizándose", no "brillando" — esto costó tres iteraciones acertar, ver la sección "Rarity visual" de `NOTES.md` para los dos enfoques que rompieron el compositing 3D de iOS antes de llegar al actual).
+Interacción 3D de giro/inclinación: arrastrar horizontalmente para rotar, arrastrar verticalmente para inclinar, encaje automático a la cara más cercana al soltar, un brillo holo-foil para cartas de rareza rara+ construido con tres capas CSS que se mueven de forma independiente (una sola capa reactiva se leía como "deslizándose", no "brillando" — esto costó tres iteraciones acertar, y los dos enfoques anteriores rompieron el compositing 3D de iOS antes de llegar al actual).
 
 ### Fase 4 — Cuatro restyles visuales completos, elegidos en vivo
 
@@ -130,11 +130,11 @@ Lo que los tests automatizados *no* cubren, y cómo se gestionaron esos huecos:
 
 **Nunca bloquear la descarga por verificación de email.** Evaluado y rechazado explícitamente — el plan gratuito de Kit no tiene forma fiable de notificar a la app de una suscripción confirmada sin una pantalla de espera con polling, y la fracción de usuarios que abandonarían en vez de esperar no compensaba. El email se sigue capturando y enviando a Kit; simplemente nunca condiciona la descarga de la carta.
 
-**La marca de agua en pantalla desincentiva las capturas de pantalla sin fingir bloquearlas.** Ninguna API web puede impedir la captura de pantalla nativa de un móvil. En su lugar, la carta *interactiva* muestra una marca de agua repetida; el nodo oculto que produce la descarga real (protegida por el gate de email) no la lleva. Una captura de pantalla de la carta en vivo lleva la marca de agua; la descarga real no — haciendo que la vía de descarga legítima sea el artefacto objetivamente mejor, en vez de intentar (y fallar en) bloquear la ilegítima. (Actualmente pausada en pantalla hasta confirmar que el renderizado de la descarga es pixel-perfect — ver `NOTES.md`.)
+**La marca de agua en pantalla desincentiva las capturas de pantalla sin fingir bloquearlas.** Ninguna API web puede impedir la captura de pantalla nativa de un móvil. En su lugar, la carta *interactiva* muestra una marca de agua repetida; el nodo oculto que produce la descarga real (protegida por el gate de email) no la lleva. Una captura de pantalla de la carta en vivo lleva la marca de agua; la descarga real no — haciendo que la vía de descarga legítima sea el artefacto objetivamente mejor, en vez de intentar (y fallar en) bloquear la ilegítima. (Actualmente pausada en pantalla hasta confirmar que el renderizado de la descarga es pixel-perfect.)
 
 **Cachear por combinación de atributos, no por usuario.** Los mismos cinco atributos siempre resuelven al mismo texto + imagen cacheados (indexados por un hash de la combinación, versionado para poder invalidar la caché si cambia el prompt), pero cada envío sigue recibiendo su propio `resultId` y enlace compartible — así que dos niños distintos pueden "descubrir" la misma especie cada uno con su propia carta, sin volver a pagar el coste de generación.
 
-**Una única fuente de verdad para lógica de validación que existe en dos sitios.** Las listas de atributos del wizard (frontend) y la validación de peticiones del backend son necesariamente dos listas separadas (3.456 combinaciones posibles) — documentado explícitamente en `NOTES.md` como un punto de sincronización manual, en vez de fingir que existe una única fuente de verdad donde no la hay.
+**Una única fuente de verdad para lógica de validación que existe en dos sitios.** Las listas de atributos del wizard (frontend) y la validación de peticiones del backend son necesariamente dos listas separadas (3.456 combinaciones posibles) — mantenido como un punto de sincronización manual documentado, en vez de fingir que existe una única fuente de verdad donde no la hay.
 
 ---
 
@@ -154,13 +154,9 @@ Dino-discovery/
 ├── docs/
 │   ├── RARITY_SYSTEM.md          # Tablas de puntos y umbrales de nivel de rareza
 │   ├── future-features.md        # Ideas evaluadas, incluyendo las rechazadas deliberadamente
-│   ├── screenshots/               # Imágenes usadas en este README
-│   └── internal-notes/               # Specs de diseño y planes de implementación por feature
-├── scripts/                       # Generación puntual de assets con IA (medallones, dorso, logo)
-└── NOTES.md                      # Memoria técnica: cada bug, decisión, y por qué
+│   └── screenshots/               # Imágenes usadas en este README
+└── scripts/                       # Generación puntual de assets con IA (medallones, dorso, logo)
 ```
-
-`NOTES.md` es el registro de ingeniería real de este proyecto — actualizado tras cada push a `main`, documenta no solo qué hace el código sino cada giro equivocado tomado para llegar ahí (enfoques de CSS fallidos, ajustes revertidos de la marca de agua, el callejón sin salida del gradiente del panel). Este README es el resumen; `NOTES.md` es el detalle.
 
 ---
 

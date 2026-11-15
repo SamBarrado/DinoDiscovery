@@ -52,7 +52,7 @@ Kids (roughly ages 5–10) who like dinosaurs and collectible-card games, playin
 | Layer | Choice | Why |
 |---|---|---|
 | **Frontend** | React 19 + TypeScript (strict) + Vite | Fast dev loop, strict types catch attribute/rarity mismatches at compile time |
-| **Styling** | Tailwind CSS | Utility-first fit the card's very literal pixel-math layout (see "Card layout" in `NOTES.md`) |
+| **Styling** | Tailwind CSS | Utility-first fit the card's very literal pixel-math layout |
 | **Backend** | Cloudflare Pages Functions | Same deploy as the frontend, no separate API host to manage |
 | **Storage** | Cloudflare KV (cache, rate-limit, results) + R2 (generated images) | Serverless, pay-per-use, no database to provision for a low-traffic prototype |
 | **Text generation** | Anthropic Claude (`claude-haiku-4-5`) | Cheap, fast, reliable strict-JSON output for name/description |
@@ -88,7 +88,7 @@ The result screen was reframed around the reference card image above: a determin
 
 ### Phase 3 — The card as a physical object
 
-3D flip/tilt interaction: drag horizontally to rotate, drag vertically to tilt, snap to the nearest face on release, a holo-foil sheen for rare+ cards built from three independently-moving CSS layers (a single reactive layer read as "sliding," not "shimmering" — this took three iterations to get right, see `NOTES.md`'s "Rarity visual" section for the two approaches that broke iOS's 3D compositing before landing on the current one).
+3D flip/tilt interaction: drag horizontally to rotate, drag vertically to tilt, snap to the nearest face on release, a holo-foil sheen for rare+ cards built from three independently-moving CSS layers (a single reactive layer read as "sliding," not "shimmering" — this took three iterations to get right, and the two earlier approaches broke iOS's 3D compositing before landing on the current one).
 
 ### Phase 4 — Four full visual restyles, chosen live
 
@@ -130,11 +130,11 @@ What automated tests *don't* cover, and how those gaps got handled instead:
 
 **Never block the download on email verification.** Evaluated and explicitly rejected — Kit's free tier has no reliable way to notify the app of a confirmed subscription without a polling wait screen, and the fraction of users who'd abandon rather than wait wasn't worth it. The email is still captured and sent to Kit; it just never gates the card download.
 
-**The on-screen watermark deters screenshots without pretending to block them.** No web API can stop a phone's native screenshot. Instead, the *interactive* card shows a repeating watermark; the hidden node that produces the actual email-gated download does not. A screenshot of the live card carries the watermark; the real download doesn't — making the legitimate download path the objectively better artifact, rather than trying (and failing) to block the illegitimate one. (Currently paused on-screen pending confirmation the download rendering is pixel-perfect — see `NOTES.md`.)
+**The on-screen watermark deters screenshots without pretending to block them.** No web API can stop a phone's native screenshot. Instead, the *interactive* card shows a repeating watermark; the hidden node that produces the actual email-gated download does not. A screenshot of the live card carries the watermark; the real download doesn't — making the legitimate download path the objectively better artifact, rather than trying (and failing) to block the illegitimate one. (Currently paused on-screen pending confirmation the download rendering is pixel-perfect.)
 
 **Cache by attribute combination, not by user.** The same five attributes always resolve to the same cached text + image (keyed by a hash of the combo, versioned so prompt changes can bust the cache), but each submission still gets its own `resultId` and shareable link — so two different kids can each "discover" the same species with their own card, without re-paying the generation cost.
 
-**One source of truth for validation logic that exists in two places.** The wizard's attribute lists (frontend) and the backend's request validation are necessarily two separate lists (3,456 possible combinations) — documented explicitly in `NOTES.md` as a manual-sync point rather than pretending a single source of truth exists where it doesn't.
+**One source of truth for validation logic that exists in two places.** The wizard's attribute lists (frontend) and the backend's request validation are necessarily two separate lists (3,456 possible combinations) — kept as a documented manual-sync point rather than pretending a single source of truth exists where it doesn't.
 
 ---
 
@@ -154,13 +154,9 @@ Dino-discovery/
 ├── docs/
 │   ├── RARITY_SYSTEM.md          # Point tables and rarity tier thresholds
 │   ├── future-features.md        # Evaluated ideas, including deliberately-rejected ones
-│   ├── screenshots/               # Images used in this README
-│   └── internal-notes/               # Design specs and implementation plans per feature
-├── scripts/                       # One-off AI asset generation (medallions, card back, logo)
-└── NOTES.md                      # Technical memory: every bug, decision, and why
+│   └── screenshots/               # Images used in this README
+└── scripts/                       # One-off AI asset generation (medallions, card back, logo)
 ```
-
-`NOTES.md` is the real engineering log of this project — updated after every push to `main`, it documents not just what the code does but every wrong turn taken to get there (failed CSS approaches, reverted watermark tuning, the panel-gradient dead end). This README is the summary; `NOTES.md` is the detail.
 
 ---
 

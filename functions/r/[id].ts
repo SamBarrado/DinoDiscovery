@@ -12,9 +12,8 @@ const SITE_URL = 'https://dino-discovery-generator.pages.dev';
 // capped short — truncate defensively rather than trust that invariant here.
 const MAX_OG_DESCRIPTION_LENGTH = 200;
 
-// This whole file exists to fix NOTES.md's documented gap: the SPA's
-// static index.html carries only generic OG/Twitter tags (see 2.4 in the
-// audit doc), so pasting a /r/:id link into iMessage/WhatsApp/Twitter never
+// This whole file exists to fix a known gap: the SPA's
+// static index.html carries only generic OG/Twitter tags, so pasting a /r/:id link into iMessage/WhatsApp/Twitter never
 // showed the specific dino — the entire point of a shareable result link.
 // Injecting per-result tags server-side, before the SPA shell is ever
 // reached, is what makes link-unfurlers (which never execute JS) see the
