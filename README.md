@@ -3,9 +3,9 @@
 # Dino Discovery — AI Dinosaur Card Generator
 ### QA / product-engineering project | React · TypeScript · Cloudflare Workers · Claude · GPT Image
 
-[![Deploy](https://img.shields.io/github/actions/workflow/status/melinDross/DinoDiscovery/deploy.yml?branch=main&label=deploy)](https://github.com/melinDross/DinoDiscovery/actions/workflows/deploy.yml)
+[![Deploy](https://img.shields.io/github/actions/workflow/status/SamBarrado/DinoDiscovery/deploy.yml?branch=main&label=deploy)](https://github.com/SamBarrado/DinoDiscovery/actions/workflows/deploy.yml)
 [![Live site](https://img.shields.io/website?url=https%3A%2F%2Fdino-discovery-generator.pages.dev&label=live%20demo)](https://dino-discovery-generator.pages.dev)
-[![Last commit](https://img.shields.io/github/last-commit/melinDross/DinoDiscovery)](https://github.com/melinDross/DinoDiscovery/commits/main)
+[![Last commit](https://img.shields.io/github/last-commit/SamBarrado/DinoDiscovery)](https://github.com/SamBarrado/DinoDiscovery/commits/main)
 [![License](https://img.shields.io/badge/license-PolyForm%20Noncommercial-blue)](LICENSE)
 
 ![Result card — a real AI-generated discovery](docs/screenshots/result-card.png)
@@ -21,7 +21,7 @@ This README documents the project as a **QA and product-engineering case study**
 ## 🚀 Quick start
 
 ```bash
-git clone https://github.com/melinDross/DinoDiscovery.git
+git clone https://github.com/SamBarrado/DinoDiscovery.git
 cd DinoDiscovery
 npm install
 npm run dev        # Vite dev server at localhost:5173 (frontend only)
@@ -170,7 +170,7 @@ Dino-discovery/
 | v0.6 | Full card restyle ("Terminal ARG"), amber frame, rotated habitat tag, on-screen watermark |
 | v0.6.1 | Fixed habitat tag and white-corner artifacts in the actual downloaded PNG |
 
-Full detail per release: [GitHub Releases](https://github.com/melinDross/DinoDiscovery/releases).
+Full detail per release: [GitHub Releases](https://github.com/SamBarrado/DinoDiscovery/releases).
 
 ---
 
@@ -219,8 +219,8 @@ For the full stack locally (frontend + Cloudflare Pages Functions), copy `.dev.v
 
 ## 🔗 Repository
 
-[github.com/melinDross/DinoDiscovery](https://github.com/melinDross/DinoDiscovery)
+[github.com/SamBarrado/DinoDiscovery](https://github.com/SamBarrado/DinoDiscovery)
 
 ---
 
-Found a bug, have an idea, or just want to say hi? [Open an issue](https://github.com/melinDross/DinoDiscovery/issues) — I read every one. If you liked the project and want to support the API costs of keeping the live demo running, [Ko-fi](https://ko-fi.com/melindross) is very appreciated. ☕
+Found a bug, have an idea, or just want to say hi? [Open an issue](https://github.com/SamBarrado/DinoDiscovery/issues) — I read every one. If you liked the project and want to support the API costs of keeping the live demo running, [Ko-fi](https://ko-fi.com/melindross) is very appreciated. ☕

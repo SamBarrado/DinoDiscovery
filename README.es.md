@@ -3,9 +3,9 @@
 # Dino Discovery — Generador de cartas de dinosaurios con IA
 ### Proyecto de QA / ingeniería de producto | React · TypeScript · Cloudflare Workers · Claude · GPT Image
 
-[![Deploy](https://img.shields.io/github/actions/workflow/status/melinDross/DinoDiscovery/deploy.yml?branch=main&label=deploy)](https://github.com/melinDross/DinoDiscovery/actions/workflows/deploy.yml)
+[![Deploy](https://img.shields.io/github/actions/workflow/status/SamBarrado/DinoDiscovery/deploy.yml?branch=main&label=deploy)](https://github.com/SamBarrado/DinoDiscovery/actions/workflows/deploy.yml)
 [![Sitio en vivo](https://img.shields.io/website?url=https%3A%2F%2Fdino-discovery-generator.pages.dev&label=demo%20en%20vivo)](https://dino-discovery-generator.pages.dev)
-[![Último commit](https://img.shields.io/github/last-commit/melinDross/DinoDiscovery)](https://github.com/melinDross/DinoDiscovery/commits/main)
+[![Último commit](https://img.shields.io/github/last-commit/SamBarrado/DinoDiscovery)](https://github.com/SamBarrado/DinoDiscovery/commits/main)
 [![Licencia](https://img.shields.io/badge/licencia-PolyForm%20Noncommercial-blue)](LICENSE)
 
 ![Carta de resultado — un descubrimiento real generado por IA](docs/screenshots/result-card.png)
@@ -21,7 +21,7 @@ Este README documenta el proyecto como un **caso de estudio de QA e ingeniería 
 ## 🚀 Inicio rápido
 
 ```bash
-git clone https://github.com/melinDross/DinoDiscovery.git
+git clone https://github.com/SamBarrado/DinoDiscovery.git
 cd DinoDiscovery
 npm install
 npm run dev        # Servidor de Vite en localhost:5173 (solo frontend)
@@ -170,7 +170,7 @@ Dino-discovery/
 | v0.6 | Restyle completo de la carta ("Terminal ARG"), marco ámbar, etiqueta de hábitat rotada, marca de agua en pantalla |
 | v0.6.1 | Arreglados los artefactos de etiqueta de hábitat y esquina blanca en el PNG descargado real |
 
-Detalle completo por release: [GitHub Releases](https://github.com/melinDross/DinoDiscovery/releases).
+Detalle completo por release: [GitHub Releases](https://github.com/SamBarrado/DinoDiscovery/releases).
 
 ---
 
@@ -219,8 +219,8 @@ Para el stack completo en local (frontend + Cloudflare Pages Functions), copia `
 
 ## 🔗 Repositorio
 
-[github.com/melinDross/DinoDiscovery](https://github.com/melinDross/DinoDiscovery)
+[github.com/SamBarrado/DinoDiscovery](https://github.com/SamBarrado/DinoDiscovery)
 
 ---
 
-¿Encontraste un bug, tienes una idea, o solo quieres saludar? [Abre un issue](https://github.com/melinDross/DinoDiscovery/issues) — leo todos. Si te gustó el proyecto y quieres ayudar con los costes de API de mantener la demo en vivo, [Ko-fi](https://ko-fi.com/melindross) se agradece mucho. ☕
+¿Encontraste un bug, tienes una idea, o solo quieres saludar? [Abre un issue](https://github.com/SamBarrado/DinoDiscovery/issues) — leo todos. Si te gustó el proyecto y quieres ayudar con los costes de API de mantener la demo en vivo, [Ko-fi](https://ko-fi.com/melindross) se agradece mucho. ☕

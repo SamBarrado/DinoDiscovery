@@ -15,16 +15,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/melinDross/Dino-discovery.git"
+    "url": "git+https://github.com/SamBarrado/DinoDiscovery.git"
   },
   "keywords": [],
   "author": "",
   "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/melinDross/Dino-discovery/issues"
+    "url": "https://github.com/SamBarrado/DinoDiscovery/issues"
   },
-  "homepage": "https://github.com/melinDross/Dino-discovery#readme",
+  "homepage": "https://github.com/SamBarrado/DinoDiscovery#readme",
   "dependencies": {
     "canvas-confetti": "^1.9.4",
     "modern-screenshot": "^4.7.0",
