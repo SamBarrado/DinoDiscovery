@@ -116,7 +116,7 @@ The result card above ("Tragahuevosaurio") is a real generation, not a mockup �
 
 ## 🧪 How I tested this
 
-**136 automated tests** (Vitest + Testing Library), covering frontend components and backend Pages Functions with in-memory fakes for KV/R2 — no shared mock library, each test file builds its own `createFakeKV`/`createEnv` helpers. Backend and frontend share the same test runner and conventions.
+**188 automated tests** (Vitest + Testing Library), covering frontend components and backend Pages Functions with in-memory fakes for KV/R2 — no shared mock library, each test file builds its own `createFakeKV`/`createEnv` helpers. Backend and frontend share the same test runner and conventions.
 
 What automated tests *don't* cover, and how those gaps got handled instead:
 
@@ -169,6 +169,11 @@ Dino-discovery/
 | v0.5 | Landing screen redesign (video, transparent wordmark, live discovery counter), medallion icon regeneration |
 | v0.6 | Full card restyle ("Terminal ARG"), amber frame, rotated habitat tag, on-screen watermark |
 | v0.6.1 | Fixed habitat tag and white-corner artifacts in the actual downloaded PNG |
+| v0.6.2 | Static assets shrunk ~90% (WebP everywhere), main bundle nearly halved, mobile safe-area insets, global daily generation budget, README rewritten as a case study |
+| v0.6.3 | Card download rebuilt on `modern-screenshot` (replacing `html2canvas`), baseline CSP/security headers, request-body limits, SEO/GEO basics, lazy-loaded result screen |
+| v0.6.4 | Result-screen buttons redesigned for mobile, stable card discovery date, error boundary, audit-driven security and contrast fixes |
+| v0.6.5 | Accessibility polish (dialog semantics, heading hierarchy), per-result Open Graph link previews, haptic feedback, vertical-scroll fix on the card |
+| v0.6.6 | "Jurassic dusk" page background, single-row button dock on the result screen, repo moved to the `SamBarrado` account |
 
 Full detail per release: [GitHub Releases](https://github.com/SamBarrado/DinoDiscovery/releases).
 
@@ -193,7 +198,7 @@ npm install
 npm run dev        # Vite dev server (frontend only, no backend functions)
 npm run build       # tsc --noEmit && vite build
 npm run preview     # preview the production build locally
-npm test            # vitest run — full 136-test suite
+npm test            # vitest run — full 188-test suite
 npm run typecheck   # tsc --noEmit only
 ```
 

@@ -116,7 +116,7 @@ La carta de resultado de arriba ("Tragahuevosaurio") es una generación real, no
 
 ## 🧪 Cómo lo he testeado
 
-**136 tests automatizados** (Vitest + Testing Library), cubriendo componentes de frontend y Pages Functions de backend con fakes en memoria para KV/R2 — sin librería de mocks compartida, cada fichero de test construye sus propios helpers `createFakeKV`/`createEnv`. Backend y frontend comparten el mismo test runner y las mismas convenciones.
+**188 tests automatizados** (Vitest + Testing Library), cubriendo componentes de frontend y Pages Functions de backend con fakes en memoria para KV/R2 — sin librería de mocks compartida, cada fichero de test construye sus propios helpers `createFakeKV`/`createEnv`. Backend y frontend comparten el mismo test runner y las mismas convenciones.
 
 Lo que los tests automatizados *no* cubren, y cómo se gestionaron esos huecos:
 
@@ -169,6 +169,11 @@ Dino-discovery/
 | v0.5 | Rediseño de la pantalla de inicio (vídeo, wordmark transparente, contador de descubrimientos en vivo), regeneración de iconos de medallón |
 | v0.6 | Restyle completo de la carta ("Terminal ARG"), marco ámbar, etiqueta de hábitat rotada, marca de agua en pantalla |
 | v0.6.1 | Arreglados los artefactos de etiqueta de hábitat y esquina blanca en el PNG descargado real |
+| v0.6.2 | Assets estáticos reducidos ~90% (WebP en todas partes), bundle principal casi a la mitad, safe-area insets en móvil, presupuesto diario global de generaciones, README reescrito como caso de estudio |
+| v0.6.3 | Descarga de la carta reconstruida con `modern-screenshot` (en lugar de `html2canvas`), CSP y cabeceras de seguridad base, límites de tamaño de body, bases de SEO/GEO, pantalla de resultado con carga diferida |
+| v0.6.4 | Botones de la pantalla de resultado rediseñados para móvil, fecha de descubrimiento estable, error boundary, fixes de seguridad y contraste derivados de la auditoría |
+| v0.6.5 | Pulido de accesibilidad (semántica de diálogo, jerarquía de encabezados), previews Open Graph por resultado, feedback háptico, fix del scroll vertical sobre la carta |
+| v0.6.6 | Fondo "Crepúsculo jurásico", dock de botones en una sola fila en la pantalla de resultado, repo movido a la cuenta `SamBarrado` |
 
 Detalle completo por release: [GitHub Releases](https://github.com/SamBarrado/DinoDiscovery/releases).
 
@@ -193,7 +198,7 @@ npm install
 npm run dev        # Servidor de desarrollo de Vite (solo frontend, sin funciones de backend)
 npm run build       # tsc --noEmit && vite build
 npm run preview     # Previsualizar el build de producción en local
-npm test            # vitest run — suite completa de 136 tests
+npm test            # vitest run — suite completa de 188 tests
 npm run typecheck   # Solo tsc --noEmit
 ```
 
